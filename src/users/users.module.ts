@@ -26,7 +26,7 @@ import { DatabaseModule } from 'src/database/database.module';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '300s' },
+      signOptions: { expiresIn: process.env.JWT_EXPIRESIN },
     }),
   ],
   controllers: [
