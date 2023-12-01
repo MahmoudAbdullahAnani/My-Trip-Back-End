@@ -19,14 +19,13 @@ import { ResetPasswordService } from './services/auth/resetPassword.service';
 import { userConnectionProvider } from './providers/databaseConnection.provider';
 import { DatabaseModule } from 'src/database/database.module';
 
-
 @Module({
   imports: [
     DatabaseModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: process.env.JWT_EXPIRESIN },
+      signOptions: { expiresIn: '259200s' },
     }),
   ],
   controllers: [
