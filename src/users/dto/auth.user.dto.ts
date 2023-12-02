@@ -15,6 +15,8 @@ export class ResetPasswordDto {
 export class VerifyPasswordDto {
   @IsString({ message: 'Incorrect code' })
   code: string | Buffer;
+  @IsEmail({}, { message: 'Invalid email' })
+  email: string | Buffer;
 }
 export class UpdatePasswordDto {
   @MinLength(3, { message: 'the password very short' })
@@ -23,4 +25,6 @@ export class UpdatePasswordDto {
   @MinLength(3, { message: 'the password very short' })
   @MaxLength(20, { message: 'the password very long' })
   confirmPassword: string;
-} 
+  @IsEmail({}, { message: 'Invalid email' })
+  email: string | Buffer;
+}

@@ -26,7 +26,7 @@ export class ResetPasswordController {
   constructor(private readonly ResetPassword: ResetPasswordService) {}
 
   @Post()
-  @Roles(['admin', 'user', 'manger'])
+  // @Roles(['admin', 'user', 'manger'])
   ResetPasswordController(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
     body: ResetPasswordDto,

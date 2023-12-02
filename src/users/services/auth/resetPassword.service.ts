@@ -79,33 +79,17 @@ export class ResetPasswordService {
       message: `The password reset code has been sent to ${body.email}`,
     };
   }
-
-  async verifyCode(
-    code: string | Buffer,
-    req: Request,
-  ): Promise<{ status: string; message: string }> {
+  // : Promise<{ status: string; message: string }>
+  async verifyCode(code: string | Buffer, req: Request) {
     // 1) get account in this is email, if not exist user on this is email throw error
-    const token = req.headers.authorization.split(' ', 2)[1];
-
-    if (!token) {
-      throw new UnauthorizedException();
-    }
-    let id;
-    try {
-      id = this.jwtService.verify(token, {
-        secret: process.env.JWT_SECRET,
-      })._id;
-    } catch (error) {
-      throw new UnauthorizedException();
-    }
-
     const user = await this.userModel
-      .findOne({ _id: id })
+      .findOne({ email: req.body?.email })
       .select('verificationCode ');
+
     if (!user) {
       throw new NotFoundException();
     }
-    // verify code, if matching update password else res error field code verify
+    // // verify code, if matching update password else res error field code verify
 
     const isPassword = await bcrypt.compare(
       code.toString(),
@@ -113,7 +97,7 @@ export class ResetPasswordService {
     );
 
     if (!isPassword) {
-      throw new HttpException('Incorrect code', 500);
+      throw new HttpException('Incorrect Code', 500);
     }
 
     return {
@@ -124,28 +108,9 @@ export class ResetPasswordService {
 
   async UpdatePassword(body: UpdatePasswordDto, req: Request): Promise<Users> {
     // 1) get account in this is email, if not exist user on this is email throw error
-
-    const token = req.headers.authorization.split(' ', 2)[1];
-
-    if (!token) {
-      throw new UnauthorizedException();
-    }
-    let id;
-    try {
-      id = this.jwtService.verify(token, {
-        secret: process.env.JWT_SECRET,
-      })._id;
-    } catch (error) {
-      throw new UnauthorizedException();
-    }
-
-    const user = await this.userModel.findById(id).select('_id');
-
-    // const user = await this.usersRepository.findOne({
-    //   where: {
-    //     id,
-    //   },
-    // });
+    const user = await this.userModel
+      .findOne({ email: req.body?.email })
+      .select('verificationCode ');
 
     if (!user) {
       throw new NotFoundException();
@@ -163,11 +128,6 @@ export class ResetPasswordService {
       { password: bcryptPassword, verificationCode: '' },
       { new: true },
     );
-    // const newData = await this.usersRepository.save({
-    //   ...user,
-    //   password: bcryptPassword,
-    //   verificationCode: '',
-    // });
     return newData;
   }
 }
