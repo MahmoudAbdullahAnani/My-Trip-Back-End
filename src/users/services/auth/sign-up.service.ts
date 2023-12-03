@@ -23,6 +23,7 @@ export class SignupService {
   async signup(
     createUserDto: CreateUserSingUpDto,
   ): Promise<{ data: CreateUserSingUpDto; token: string }> {
+
     const user = await this.usersModule.findOne({
       userName: createUserDto.userName,
     });
@@ -30,6 +31,22 @@ export class SignupService {
     // User exist
     if (user) {
       if (user.active === true) {
+        throw new HttpException('The user is already exist, go to login', 400);
+      } else {
+        throw new HttpException(
+          'This account already exists. Go to login',
+          400,
+        );
+      }
+    }
+    const userEmail = await this.usersModule.findOne({
+      email: createUserDto.email,
+    });
+    console.log(userEmail);
+
+    // User exist
+    if (userEmail) {
+      if (userEmail.active === true) {
         throw new HttpException('The user is already exist, go to login', 400);
       } else {
         throw new HttpException(
