@@ -1,4 +1,4 @@
-import { Injectable, Req, UnauthorizedException, Inject } from '@nestjs/common';
+import { Injectable, Req, UnauthorizedException, Inject, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -31,6 +31,10 @@ export class UsersMeService {
           '_id firstName lastName email userName role age phoneNumber active',
         );
 
+      // if notfound user on this _id in the token
+      if (!user) {
+        throw new NotFoundException()
+      }
       return user;
     } catch {
       throw new UnauthorizedException();
