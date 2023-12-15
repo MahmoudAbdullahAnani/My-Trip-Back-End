@@ -11,7 +11,7 @@ import {
   ResetPasswordDto,
   UpdatePasswordDto,
 } from 'src/users/dto/auth.user.dto';
-import { EmailService } from 'src/users/email.service';
+import { EmailService } from 'src/users/email.provider';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';

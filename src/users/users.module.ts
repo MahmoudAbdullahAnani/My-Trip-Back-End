@@ -9,7 +9,7 @@ import { SingupController } from './controllers/auth/sign-up.controller';
 import { SignupService } from './services/auth/sign-up.service';
 import { SinginController } from './controllers/auth/sign-in.controller';
 import { SigninService } from './services/auth/sign-in.service';
-import { EmailService } from './email.service';
+import { EmailService } from './email.provider';
 import {
   ResetPasswordController,
   UpdatePasswordController,
