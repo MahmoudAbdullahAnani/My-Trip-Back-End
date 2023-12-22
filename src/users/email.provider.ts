@@ -26,7 +26,7 @@ export class EmailService {
       from,
       to,
       subject,
-      text,
+      html: text,
     };
 
     // Send the email
