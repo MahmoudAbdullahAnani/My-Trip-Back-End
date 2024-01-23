@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
-import { NotificationsController, NotificationsUserMeController } from './notifications.controller';
-import { NotificationsService } from './notifications.service';
+import {
+  NotificationsController,
+  NotificationsUserMeController,
+} from './private/notifications.controller';
+import { NotificationsService } from './private/notifications.service';
 // Data Base
 import { DatabaseModule } from 'src/database/database.module';
 import { userConnectionProvider } from 'src/users/providers/databaseConnection.provider';

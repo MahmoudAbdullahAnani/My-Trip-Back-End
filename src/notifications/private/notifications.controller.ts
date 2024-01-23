@@ -15,7 +15,7 @@ import { Roles } from 'src/users/guards/roles.decorator';
 import {
   NotificationDto,
   UpdateNotificationDto,
-} from './dto/NotificationDto.dto';
+} from '../dto/NotificationDto.dto';
 import { UsersGuard } from 'src/users/guards/users.guard';
 
 @Controller('notifications')
