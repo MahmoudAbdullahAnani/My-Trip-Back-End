@@ -24,7 +24,7 @@ export class SigninService {
   ) {}
   async signin(login: Login): Promise<{ data: CreateUserDto; token: string }> {
     const user = await this.usersModule
-      .findOne({ userName: login.userName })
+      .findOne({ email: login.email })
       .select('_id password role firstName lastName email userName age phoneNumber');
 
     // const user = await this.usersRepository.findOne({

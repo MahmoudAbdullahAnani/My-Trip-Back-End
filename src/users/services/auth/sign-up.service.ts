@@ -42,7 +42,6 @@ export class SignupService {
     const userEmail = await this.usersModule.findOne({
       email: createUserDto.email,
     });
-    console.log(userEmail);
 
     // User exist
     if (userEmail) {

@@ -3,6 +3,7 @@ import {
   NotFoundException,
   HttpException,
   Inject,
+  ExceptionFilter,
 } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -23,17 +24,21 @@ export class UsersService {
     // if this is data of user exist==> throw error this is user exist
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(createUserDto.password, salt);
-    // console.log(password);
 
-    const user = await this.userModule.findOne({
-      userName: createUserDto.userName,
+    const userEmail = await this.userModule.findOne({
+      // userName: createUserDto.userName,
       email: createUserDto.email,
     });
-    if (user) {
-      throw new HttpException(
-        'The user is already exist, go to update field active true',
-        400,
-      );
+    const userUserName = await this.userModule.findOne({
+      userName: createUserDto.userName,
+      // email: createUserDto.email,
+    });
+    if (userEmail || userUserName) {
+      if (userEmail) {
+        throw new HttpException('The user is already exist', 400);
+      } else {
+        throw new HttpException('The user name is already exist', 400);
+      }
     }
 
     // if this is data of user not exist==> Create New User
@@ -46,7 +51,11 @@ export class UsersService {
   }
 
   async findAll(): Promise<CreateUserDto[]> {
-    return await this.userModule.find({});
+    return await this.userModule
+      .find({})
+      .select(
+        '_id firstName lastName email userName role phoneNumber createdAt updatedAt active ',
+      );
   }
 
   async findOne(id: string): Promise<CreateUserDto> {
@@ -58,27 +67,49 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<any> {
+    try {
+      const users = await this.userModule.find({ _id: id });
+    } catch (error) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    // console.log('users==>',users);
+
+    // if this is user not exist
+    // if (users.length<=0) {
+    //   // Code to handle when the user does not exist
+    //   throw new NotFoundException(`User with ID "${id}" not found`);
+    // }
     const user = await this.userModule.findOne({ _id: id });
+
     let userUpdate = {};
     if (updateUserDto.password) {
       const salt = await bcrypt.genSalt(10);
       const password = await bcrypt.hash(updateUserDto.password, salt);
-      userUpdate = await this.userModule.findOneAndUpdate(
-        { _id: user._id },
-        { ...updateUserDto, password },
-        { new: true },
-      );
+      userUpdate = await this.userModule
+        .findOneAndUpdate(
+          { _id: user._id },
+          { ...updateUserDto, password },
+          { new: true },
+        )
+        .select(
+          '_id firstName lastName email userName  phoneNumber createdAt updatedAt active ',
+        );
     } else {
-      userUpdate = await this.userModule.findOneAndUpdate(
-        { _id: user._id },
-        updateUserDto,
-        { new: true },
-      );
+      userUpdate = await this.userModule
+        .findOneAndUpdate({ _id: user._id }, updateUserDto, { new: true })
+        .select(
+          '_id firstName lastName email userName  phoneNumber createdAt updatedAt active ',
+        );
     }
     return userUpdate;
   }
 
-  async remove(id: string): Promise<void> {
-    await this.userModule.deleteOne({ _id: id });
+  async remove(id: string): Promise<void | ExceptionFilter> {
+    try {
+      const users = await this.userModule.find({ _id: id });
+      await this.userModule.deleteOne({ _id: id });
+    } catch (error) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import {Document} from "mongoose"
+import { Document } from 'mongoose';
 export interface Users extends Document {
   readonly firstName: string;
   readonly lastName: string;
@@ -6,6 +6,7 @@ export interface Users extends Document {
   readonly userName: string;
   readonly password: string;
   readonly role: string;
+  readonly avatar: string;
   readonly age: number;
   readonly phoneNumber: string;
   readonly address: string;
