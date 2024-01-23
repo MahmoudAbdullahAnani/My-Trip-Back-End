@@ -12,4 +12,5 @@ export interface Users extends Document {
   readonly address: string;
   readonly active: boolean;
   readonly verificationCode: string;
+  readonly notification: [];
 }
