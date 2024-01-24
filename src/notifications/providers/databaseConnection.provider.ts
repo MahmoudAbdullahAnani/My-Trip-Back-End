@@ -1,7 +1,7 @@
 import { Connection } from 'mongoose';
-import { NotificationsSchema } from '../schemas/users.schema';
+import { NotificationsSchema } from '../schemas/notifications.schema';
 
-export const userConnectionProvider = [
+export const notificationsConnectionProvider = [
   {
     provide: 'Notifications_MODEL',
     useFactory: (connection: Connection) =>

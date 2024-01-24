@@ -196,7 +196,7 @@ export class NotificationsService {
 
     const userByNotification = await this.usersModule.findById(userId);
     const notifications = userByNotification.notification;
-    const resultExist: { _id }[] = notifications.filter(
+    const resultExist: { _id; title: string }[] = notifications.filter(
       ({ _id }: DataNotificationsType) => _id.toString() === notificationId,
     );
     const allNotificationsNotUpdated: { _id }[] = notifications.filter(
@@ -211,6 +211,16 @@ export class NotificationsService {
         cause: new Error(),
         description: `notification not found on this ID ${notificationId}`,
       });
+    }
+    if (resultExist[0].title === updateNotificationDto.title) {
+      throw new HttpException(
+        `notification already exist`,
+        HttpStatus.FORBIDDEN,
+        {
+          cause: new Error(),
+          description: `this is Notification already exist on this is title ${resultExist[0].title}`,
+        },
+      );
     }
     try {
       const dataUpdated = {
@@ -302,12 +312,6 @@ export class NotificationsService {
     const payload = await this.jwtService.verifyAsync(token, {
       secret: process.env.JWT_SECRET,
     });
-    // const data = {
-    //   isSee: updateNotificationDto.isSee,
-    //   title: updateNotificationDto.title,
-    //   content: updateNotificationDto.content,
-    //   date: updateNotificationDto.date,
-    // };
 
     const userByNotification = await this.usersModule.findById(payload._id);
     const notifications = userByNotification.notification;
@@ -329,6 +333,16 @@ export class NotificationsService {
         description: `notification not found on this ID ${notificationId}`,
       });
     }
+        // if (resultExist[0].title === updateNotificationDto.title) {
+        //   throw new HttpException(
+        //     `notification already exist`,
+        //     HttpStatus.FORBIDDEN,
+        //     {
+        //       cause: new Error(),
+        //       description: `this is Notification already exist on this is title ${resultExist[0].title}`,
+        //     },
+        //   );
+        // }
     try {
       const dataUpdated = {
         _id: resultExist[0]._id,
