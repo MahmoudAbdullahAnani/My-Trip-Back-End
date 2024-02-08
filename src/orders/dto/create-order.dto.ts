@@ -13,4 +13,7 @@ export class CreateOrderDto {
   urlCancel: string;
   @IsString({ message: 'Must be string' })
   userEmail: string;
+  @IsString({ message: 'Must be string' })
+  carrierCodeLogo: string;
 }
+

@@ -16,7 +16,9 @@ export class OrdersService {
             product_data: {
               name: 'My-trip',
               description: OrderData.description,
-              images: [`https://my--trip.vercel.app/assets/logo-032ce7c8.png`],
+              images: [
+                `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
+              ],
             },
           },
           quantity: 1,
