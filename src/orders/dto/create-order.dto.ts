@@ -1,19 +1,35 @@
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateOrderDto {
-  @IsNumber({}, { message: 'Must be number' })
+export class CreateOrderStripeDto {
+  @IsNumber({}, { message: 'price Must be number' })
   price: number;
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'description Must be string' })
   description: string;
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'user_id Must be string' })
   user_id?: string;
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'urlSuccess Must be string' })
   urlSuccess: string;
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'urlCancel Must be string' })
   urlCancel: string;
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'userEmail Must be string' })
   userEmail: string;
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'carrierCodeLogo Must be string' })
+  carrierCodeLogo: string;
+}
+export class CreateOrderPayPallDto {
+  @IsNumber({}, { message: 'price Must be number' })
+  price: number;
+  @IsString({ message: 'description Must be string' })
+  description: string;
+  @IsString({ message: 'user_id Must be string' })
+  user_id?: string;
+  @IsString({ message: 'urlSuccess Must be string' })
+  urlSuccess: string;
+  @IsString({ message: 'urlCancel Must be string' })
+  urlCancel: string;
+  @IsString({ message: 'userEmail Must be string' })
+  userEmail: string;
+  @IsString({ message: 'carrierCodeLogo Must be string' })
   carrierCodeLogo: string;
 }
 

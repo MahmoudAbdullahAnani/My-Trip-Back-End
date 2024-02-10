@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { HttpException, Injectable } from '@nestjs/common';
+import {
+  CreateOrderPayPallDto,
+  CreateOrderStripeDto,
+} from './dto/create-order.dto';
 const stripe = require('stripe')(
   'sk_test_51OhY70Jz9GDytzMTDBZgLDGZRcmsIjHMoRgAfFwRkBB62r86y0QMzTzJwD21XNvo7tYWG7iJmBSs6IivPC9yDtWW00rRjVXqDX',
 );
 
 @Injectable()
 export class OrdersService {
-  async create(OrderData: CreateOrderDto): Promise<any> {
+  async createStripe(OrderData: CreateOrderStripeDto): Promise<any> {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -32,5 +35,73 @@ export class OrdersService {
       customer_email: OrderData.userEmail,
     });
     return session;
+  }
+  async createPaypal(OrderData: CreateOrderPayPallDto): Promise<any> {
+    //PayPal Developer YouTube Video:
+    //How to Retrieve an API Access Token (Node.js)
+    //https://www.youtube.com/watch?v=HOkkbGSxmp4
+    let data = {};
+    async function handleOrderData(token: string) {
+      const response = await fetch(
+        process.env.API_SENDBOX_PAYPAL + '/v2/checkout/orders',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            intent: 'CAPTURE',
+            purchase_units: [
+              {
+                custom_id: OrderData.user_id,
+                reference_id: OrderData.user_id,
+                amount: {
+                  value: OrderData.price.toString(),
+                  currency_code: 'USD',
+                },
+              },
+            ],
+            payment_source: {
+              paypal: {
+                experience_context: {
+                  payment_method_preference: 'IMMEDIATE_PAYMENT_REQUIRED',
+                  brand_name: 'EXAMPLE INC',
+                  locale: 'ar-EG',
+                  landing_page: 'LOGIN',
+                  shipping_preference: 'NO_SHIPPING',
+                  user_action: 'PAY_NOW',
+                  return_url: OrderData.urlSuccess,
+                  cancel_url: OrderData.urlCancel,
+                },
+              },
+            },
+          }),
+        },
+      );
+      const json = await response.json();
+      data = json;
+      return json;
+    }
+
+    async function get_access_token() {
+      const auth = `${process.env.CLIENT_ID_PAYPAL}:${process.env.SECRET_PAYPAL}`;
+      const data = 'grant_type=client_credentials';
+      await fetch(process.env.API_SENDBOX_PAYPAL + '/v1/oauth2/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Basic ${Buffer.from(auth).toString('base64')}`,
+        },
+        body: data,
+      })
+        .then((res) => res.json())
+        .then(async (json) => {
+          await handleOrderData(json.access_token);
+          return json.access_token;
+        });
+    }
+    await get_access_token();
+    return data;
   }
 }

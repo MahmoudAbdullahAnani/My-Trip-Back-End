@@ -3,6 +3,8 @@
         "CLIENTID",
         "CLIENTSECRET",
         "EXPIRESIN",
+        "paypall",
+        "SENDBOX",
         "Signin",
         "Singin",
         "Singup",

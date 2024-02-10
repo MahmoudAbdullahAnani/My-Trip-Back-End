@@ -9,17 +9,37 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto } from './dto/create-order.dto';
+import {
+  CreateOrderPayPallDto,
+  CreateOrderStripeDto,
+} from './dto/create-order.dto';
 
-@Controller('checkout-completed')
-export class OrdersController {
+@Controller('checkout-completed/stripe')
+export class OrdersStripeController {
+  constructor(private readonly ordersService: OrdersService) {}
+  // @Desc any user can pay order stripe (visa, mastercard)
+  // @Route POST /checkout-completed/paypall
+  // @Access ['user Pay']
+  @Post()
+  createStripe(
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    OrderData: CreateOrderStripeDto,
+  ) {
+    return this.ordersService.createStripe(OrderData);
+  }
+}
+@Controller('checkout-completed/paypall')
+export class OrdersPayPallController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  // @Desc any user can pay order for paypall
+  // @Route POST /checkout-completed/paypall
+  // @Access ['user Pay']
   @Post()
-  create(
+  createPaypal(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    OrderData: CreateOrderDto,
+    OrderData: CreateOrderPayPallDto,
   ) {
-    return this.ordersService.create(OrderData);
+    return this.ordersService.createPaypal(OrderData);
   }
 }
