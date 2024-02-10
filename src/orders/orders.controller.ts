@@ -28,12 +28,12 @@ export class OrdersStripeController {
     return this.ordersService.createStripe(OrderData);
   }
 }
-@Controller('checkout-completed/paypall')
+@Controller('checkout-completed/paypal')
 export class OrdersPayPallController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  // @Desc any user can pay order for paypall
-  // @Route POST /checkout-completed/paypall
+  // @Desc any user can pay order for paypal
+  // @Route POST /checkout-completed/paypal
   // @Access ['user Pay']
   @Post()
   createPaypal(
