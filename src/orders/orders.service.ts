@@ -111,22 +111,23 @@ export class OrdersService {
   }
   async createOrder(OrderData): Promise<any> {
     if (OrderData.type === 'checkout.session.completed') {
-      console.log('OrderData===> ', OrderData);
-      console.log('customer_details===> ', OrderData.customer_details);
-      
+      // console.log('OrderData===> ', OrderData);
+      // console.log('customer_details===> ', OrderData.customer_details);
+
       return await this.order.create({
-        name: OrderData.customer_details.name,
-        totalOrderPrice: +OrderData.amount_total,
+        name: OrderData.data.object.customer_details.name,
+        totalOrderPrice: +OrderData.data.object.amount_total,
         evt_id: OrderData.id,
         description:
-          OrderData.invoice_creation.invoice_data.description || 'null',
-        address: OrderData.customer_details.address.country,
-        user_id: OrderData.client_reference_id,
-        currency: OrderData.currency,
-        email: OrderData.customer_email,
-        payment_method_types: OrderData.payment_method_types[0],
-        payment_intent: OrderData.payment_intent,
-        status: OrderData.status,
+          OrderData.data.object.invoice_creation.invoice_data.description ||
+          'null',
+        address: OrderData.data.object.customer_details.address.country,
+        user_id: OrderData.data.object.client_reference_id,
+        currency: OrderData.data.object.currency,
+        email: OrderData.data.object.customer_email,
+        payment_method_types: OrderData.data.object.payment_method_types[0],
+        payment_intent: OrderData.data.object.payment_intent,
+        status: OrderData.data.object.status,
       });
     }
   }
