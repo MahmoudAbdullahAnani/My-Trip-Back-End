@@ -36,7 +36,11 @@ export class OrdersService {
       mode: 'payment',
       success_url: OrderData.urlSuccess,
       cancel_url: OrderData.urlCancel,
-
+      invoice_creation: {
+        invoice_data: {
+          description: OrderData.description,
+        },
+      },
       client_reference_id: OrderData.user_id,
       customer_email: OrderData.userEmail,
     });
@@ -112,7 +116,10 @@ export class OrdersService {
   }
   async createOrder(OrderData): Promise<any> {
     if (OrderData.type === 'checkout.session.completed') {
-      console.log('customer_details==> ', OrderData.data.object.customer_details);
+      console.log(
+        'customer_details==> ',
+        OrderData.data.object.customer_details,
+      );
     }
     return OrderData;
   }
