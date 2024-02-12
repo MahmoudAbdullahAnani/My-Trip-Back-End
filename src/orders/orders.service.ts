@@ -34,6 +34,8 @@ export class OrdersService {
         },
       ],
       mode: 'payment',
+      description: OrderData.description,
+
       success_url: OrderData.urlSuccess,
       cancel_url: OrderData.urlCancel,
       invoice_creation: {
