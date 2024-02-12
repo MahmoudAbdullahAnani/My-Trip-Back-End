@@ -111,8 +111,25 @@ export class OrdersService {
   }
   async createOrder(OrderData): Promise<any> {
     if (OrderData.type === 'checkout.session.completed') {
-      // console.log('OrderData===> ', OrderData);
-      // console.log('customer_details===> ', OrderData.customer_details);
+      return await this.order.create({
+        name: OrderData.data.object.customer_details.name,
+        totalOrderPrice: +OrderData.data.object.amount_total,
+        evt_id: OrderData.id,
+        description:
+          OrderData.data.object.invoice_creation.invoice_data.description ||
+          'null',
+        address: OrderData.data.object.customer_details.address.country,
+        user_id: OrderData.data.object.client_reference_id,
+        currency: OrderData.data.object.currency,
+        email: OrderData.data.object.customer_email,
+        payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
+        payment_intent: OrderData.data.object.payment_intent,
+        status: OrderData.data.object.status,
+      });
+    }
+
+    if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
+      console.log('OrderData===> ', OrderData);
 
       return await this.order.create({
         name: OrderData.data.object.customer_details.name,
@@ -125,7 +142,7 @@ export class OrdersService {
         user_id: OrderData.data.object.client_reference_id,
         currency: OrderData.data.object.currency,
         email: OrderData.data.object.customer_email,
-        payment_method_types: OrderData.data.object.payment_method_types[0],
+        payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
         payment_intent: OrderData.data.object.payment_intent,
         status: OrderData.data.object.status,
       });
