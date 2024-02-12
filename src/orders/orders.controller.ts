@@ -54,7 +54,7 @@ export class CompletedOrdersController {
   @Post()
   createPaypal(
     @Body()
-    OrderData: CreateOrderPayPallDto,
+    OrderData,
   ) {
     return this.ordersService.createOrder(OrderData);
   }

@@ -110,9 +110,10 @@ export class OrdersService {
     await get_access_token();
     return data;
   }
-  async createOrder(OrderData: CreateOrderPayPallDto): Promise<any> {
-    console.log('create order...');
-    console.log('OrderData==> ', OrderData);
+  async createOrder(OrderData): Promise<any> {
+    if (OrderData.type === 'checkout.session.completed') {
+      console.log('customer_details==> ', OrderData.data.object.customer_details);
+    }
     return OrderData;
   }
 }
