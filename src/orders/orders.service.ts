@@ -127,6 +127,7 @@ export class OrdersService {
         status: OrderData.data.object.status,
       });
     }
+      console.log('OrderData===> ', OrderData);
 
     if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
       console.log('OrderData===> ', OrderData);
