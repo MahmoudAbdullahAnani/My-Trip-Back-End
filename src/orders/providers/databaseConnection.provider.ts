@@ -1,7 +1,7 @@
 import { Connection } from 'mongoose';
 import { OrderSchema } from '../schemas/order.schema';
 
-export const userConnectionProvider = [
+export const orderConnectionProvider = [
   {
     provide: 'ORDER_MODEL',
     useFactory: (connection: Connection) =>
