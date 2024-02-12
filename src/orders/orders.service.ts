@@ -36,11 +36,6 @@ export class OrdersService {
       mode: 'payment',
       success_url: OrderData.urlSuccess,
       cancel_url: OrderData.urlCancel,
-      invoice_creation: {
-        invoice_data: {
-          description: OrderData.description,
-        },
-      },
       client_reference_id: OrderData.user_id,
       customer_email: OrderData.userEmail,
     });
