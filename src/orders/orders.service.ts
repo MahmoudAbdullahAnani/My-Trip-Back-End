@@ -113,7 +113,7 @@ export class OrdersService {
     if (OrderData.type === 'checkout.session.completed') {
       return await this.order.create({
         name: OrderData.customer_details.name,
-        totalOrderPrice: OrderData.amount_total,
+        totalOrderPrice: +OrderData.amount_total,
         evt_id: OrderData.id,
         description:
           OrderData.invoice_creation.invoice_data.description || 'null',

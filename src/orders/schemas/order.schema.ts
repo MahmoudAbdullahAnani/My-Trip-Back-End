@@ -9,7 +9,7 @@ export const OrderSchema = new mongoose.Schema(
       minLength: [3, 'first name must be at least 3 characters long'],
     },
     totalOrderPrice: Number,
-    evt_id: Number,
+    evt_id: String,
     description: String,
     address: String,
     user_id: String,
