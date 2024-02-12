@@ -1,14 +1,20 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import {
   CreateOrderPayPallDto,
   CreateOrderStripeDto,
 } from './dto/create-order.dto';
+import { Model } from 'mongoose';
+import { OrderInterfacer } from './interfaces/users.interface';
 const stripe = require('stripe')(
   'sk_test_51OhY70Jz9GDytzMTDBZgLDGZRcmsIjHMoRgAfFwRkBB62r86y0QMzTzJwD21XNvo7tYWG7iJmBSs6IivPC9yDtWW00rRjVXqDX',
 );
 
 @Injectable()
 export class OrdersService {
+  constructor(
+    @Inject('ORDER_MODEL') private readonly order: Model<OrderInterfacer>,
+  ) {}
+
   async createStripe(OrderData: CreateOrderStripeDto): Promise<any> {
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -103,5 +109,9 @@ export class OrdersService {
     }
     await get_access_token();
     return data;
+  }
+  async createOrder(OrderData: CreateOrderPayPallDto): Promise<any> {
+    console.log('create order...');
+    console.log('OrderData==> ', OrderData);
   }
 }

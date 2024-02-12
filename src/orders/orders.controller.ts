@@ -43,3 +43,18 @@ export class OrdersPayPallController {
     return this.ordersService.createPaypal(OrderData);
   }
 }
+@Controller('checkout-completed')
+export class CompletedOrdersController {
+  constructor(private readonly ordersService: OrdersService) {}
+
+  // @Desc When user completed payment then create order in system
+  // @Route POST /checkout-completed
+  // @Access ['User Payment']
+  @Post()
+  createPaypal(
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    OrderData: CreateOrderPayPallDto,
+  ) {
+    return this.ordersService.createOrder(OrderData);
+  }
+}
