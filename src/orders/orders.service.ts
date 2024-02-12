@@ -116,11 +116,20 @@ export class OrdersService {
   }
   async createOrder(OrderData): Promise<any> {
     if (OrderData.type === 'checkout.session.completed') {
-      console.log(
-        'customer_details==> ',
-        OrderData.data.object.customer_details,
-      );
+      await this.order.create({
+        name: OrderData.customer_details.name,
+        totalOrderPrice: OrderData.amount_total,
+        evt_id: OrderData.id,
+        description:
+          OrderData.invoice_creation.invoice_data.description || 'null',
+        address: OrderData.customer_details.address.country,
+        user_id: OrderData.client_reference_id,
+        currency: OrderData.currency,
+        email: OrderData.customer_email,
+        payment_method_types: OrderData.payment_method_types[0],
+        payment_intent: OrderData.payment_intent,
+        status: OrderData.status,
+      });
     }
-    return OrderData;
   }
 }
