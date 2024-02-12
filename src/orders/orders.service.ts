@@ -111,6 +111,9 @@ export class OrdersService {
   }
   async createOrder(OrderData): Promise<any> {
     if (OrderData.type === 'checkout.session.completed') {
+      console.log('OrderData===> ', OrderData);
+      console.log('customer_details===> ', OrderData.customer_details);
+      
       return await this.order.create({
         name: OrderData.customer_details.name,
         totalOrderPrice: +OrderData.amount_total,
