@@ -120,32 +120,28 @@ export class OrdersService {
           'null',
         address: OrderData.data.object.customer_details.address.country,
         user_id: OrderData.data.object.client_reference_id,
-        currency: OrderData.data.object.currency,
+        currency: OrderData.data.object.currency || 'egp',
         email: OrderData.data.object.customer_email,
         payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
         payment_intent: OrderData.data.object.payment_intent,
         status: OrderData.data.object.status,
       });
     }
-      console.log('OrderData===> ', OrderData);
 
     if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
-      console.log('OrderData===> ', OrderData);
-
       return await this.order.create({
-        name: OrderData.data.object.customer_details.name,
-        totalOrderPrice: +OrderData.data.object.amount_total,
+        name: `${OrderData.resource.payer.name.given_name} ${OrderData.resource.payer.name.surname}`,
+        totalOrderPrice: +OrderData.resource.purchase_units[0].amount.value,
         evt_id: OrderData.id,
-        description:
-          OrderData.data.object.invoice_creation.invoice_data.description ||
-          'null',
-        address: OrderData.data.object.customer_details.address.country,
-        user_id: OrderData.data.object.client_reference_id,
-        currency: OrderData.data.object.currency,
-        email: OrderData.data.object.customer_email,
-        payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
-        payment_intent: OrderData.data.object.payment_intent,
-        status: OrderData.data.object.status,
+        description: OrderData.summary || 'null',
+        address: OrderData.resource.payer.address.country_code,
+        user_id: OrderData.resource.purchase_units[0].reference_id,
+        currency:
+          OrderData.resource.purchase_units[0].amount.currency_code || 'USD',
+        email: OrderData.resource.payment_source.paypal.email_address,
+        payment_method_types: `Paypal`,
+        payment_intent: OrderData.resource.intent,
+        status: OrderData.status,
       });
     }
   }
