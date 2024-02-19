@@ -18,6 +18,10 @@ import {
 import { ResetPasswordService } from './services/auth/resetPassword.service';
 import { userConnectionProvider } from './providers/databaseConnection.provider';
 import { DatabaseModule } from 'src/database/database.module';
+import { PendingFriendsController } from './controllers/friends/pending-friends.controller';
+import { PendingFriendsService } from './services/friends/pending-friends.service';
+import { FriendsController } from './controllers/friends/friends.controller';
+import { FriendsService } from './services/friends/friends.service';
 
 @Module({
   imports: [
@@ -36,6 +40,8 @@ import { DatabaseModule } from 'src/database/database.module';
     ResetPasswordController,
     VerifyCodeController,
     UpdatePasswordController,
+    PendingFriendsController,
+    FriendsController,
   ],
   providers: [
     ...userConnectionProvider,
@@ -43,6 +49,8 @@ import { DatabaseModule } from 'src/database/database.module';
     UsersMeService,
     SignupService,
     SigninService,
+    PendingFriendsService,
+    FriendsService,
     ResetPasswordService,
     EmailService,
   ],

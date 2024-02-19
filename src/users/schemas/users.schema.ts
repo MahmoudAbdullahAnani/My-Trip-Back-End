@@ -35,6 +35,20 @@ export const UsersSchema = new mongoose.Schema(
         date: Date,
       },
     ],
+    pendingFriends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true,
+      },
+    ],
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true,
+      },
+    ],
   },
   {
     timestamps: true,

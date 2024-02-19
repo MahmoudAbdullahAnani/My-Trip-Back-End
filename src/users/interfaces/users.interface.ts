@@ -13,4 +13,6 @@ export interface Users extends Document {
   readonly active: boolean;
   readonly verificationCode: string;
   readonly notification: [];
+  readonly pendingFriends: [];
+  readonly friends: [];
 }
