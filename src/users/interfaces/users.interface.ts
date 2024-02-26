@@ -12,6 +12,10 @@ export interface Users extends Document {
   readonly address: string;
   readonly active: boolean;
   readonly verificationCode: string;
+  readonly passportNumber: string;
+  readonly country: string;
+  readonly nationality: string;
+  readonly gender: string;
   readonly notification: [];
   readonly pendingFriends: [];
   readonly friends: [];

@@ -21,6 +21,32 @@ export class CreateUserDto {
   @MaxLength(30, { message: 'the last name very long' })
   @IsString({ message: 'last name must be a string' })
   lastName: string;
+
+  // passportNumber Column
+  @IsOptional()
+  @MaxLength(15, { message: 'the passport Number very long' })
+  @MinLength(6, { message: 'the passport Number very long' })
+  @IsString({ message: 'passport Number must be a string' })
+  passportNumber: string;
+
+  // country Column
+  @IsOptional()
+  @IsString({ message: 'country must be a string' })
+  country: string;
+
+  // nationality Column
+  @IsOptional()
+  @IsString({ message: 'nationality be a string' })
+  nationality: string;
+
+  // gender Column
+  @IsOptional()
+  @IsEnum(['male', 'female'], {
+    message: 'gender must be one of the following values: male, female',
+  })
+  @IsString({ message: 'gender be a string' })
+  gender: string;
+
   // email Column
 
   @IsEmail({}, { message: 'Invalid Email' })
@@ -85,6 +111,31 @@ export class CreateUserSingUpDto {
   @MaxLength(30, { message: 'the last name very long' })
   @IsString({ message: 'last name must be a string' })
   lastName: string;
+
+  // passportNumber Column
+  @IsOptional()
+  @MaxLength(15, { message: 'the passport Number very long' })
+  @MinLength(6, { message: 'the passport Number very long' })
+  @IsString({ message: 'passport Number must be a string' })
+  passportNumber: string;
+
+  // country Column
+  @IsOptional()
+  @IsString({ message: 'country must be a string' })
+  country: string;
+
+  // nationality Column
+  @IsOptional()
+  @IsString({ message: 'nationality be a string' })
+  nationality: string;
+
+  // gender Column
+  @IsOptional()
+  @IsEnum(['male', 'female'], {
+    message: 'gender must be one of the following values: male, female',
+  })
+  @IsString({ message: 'gender be a string' })
+  gender: string;
   // email Column
 
   @IsEmail({}, { message: 'Invalid Email' })
