@@ -28,7 +28,7 @@ export class UsersMeService {
       const user = await this.usersModule
         .findOne({ _id: payload._id })
         .select(
-          '_id firstName lastName email userName role age phoneNumber active',
+          '_id firstName lastName email userName role age phoneNumber active gender nationality country passportNumber',
         );
 
       // if notfound user on this _id in the token
