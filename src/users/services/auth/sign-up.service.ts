@@ -29,6 +29,16 @@ export class SignupService {
       userName: createUserDto.userName,
     });
 
+    if (
+      user.verificationAccountCode !== 'done' &&
+      user.verificationAccountCode
+    ) {
+      return {
+        data: createUserDto,
+        token: 'varification',
+      };
+    }
+
     // User exist
     if (user) {
       if (user.active === true) {
@@ -127,6 +137,14 @@ export class SignupService {
       .select(
         '_id firstName lastName email userName  phoneNumber createdAt updatedAt active ',
       );
-    return handleUser;
+    const payload: { _id: string; userName: string; role: string } = {
+      _id: handleUser._id,
+      userName: handleUser.userName,
+      role: handleUser.role,
+    };
+    const token = await this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET,
+    });
+    return { data: payload, token };
   }
 }

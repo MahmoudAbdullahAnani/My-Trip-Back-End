@@ -12,6 +12,7 @@
         "Signin",
         "Singin",
         "Singup",
-        "typeorm"
+        "typeorm",
+        "varification"
     ]
 }
