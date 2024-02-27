@@ -121,7 +121,7 @@ export class SignupService {
           email: verificationAccountDto.email,
           userName: verificationAccountDto.userName,
         },
-        { verificationAccountCode: '' },
+        { verificationAccountCode: 'done' },
         { new: true },
       )
       .select(
