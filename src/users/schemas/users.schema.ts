@@ -30,6 +30,7 @@ export const UsersSchema = new mongoose.Schema(
     address: String,
     active: Boolean,
     verificationCode: String,
+    verificationAccountCode: String,
     notification: [
       {
         id: { type: mongoose.Schema.ObjectId },

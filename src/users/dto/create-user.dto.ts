@@ -182,3 +182,17 @@ export class CreateUserSingUpDto {
   @IsString({ message: 'avatar must be a string' })
   avatar: string;
 }
+export class VerificationAccountDto {
+  @IsEmail({}, { message: 'Invalid Email' })
+  @IsString({ message: 'email must be a string' })
+  email: string;
+
+  // verificationCode Column
+
+  @MinLength(6, { message: 'the verification Account Code very short' })
+  @MaxLength(6, { message: 'the verification Account Code very long' })
+  @IsString({ message: 'verification Account Code must be a string' })
+  verificationAccountCode: string;
+  @IsString({ message: 'user name must be a string' })
+  userName: string;
+}

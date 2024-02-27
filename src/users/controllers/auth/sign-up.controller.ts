@@ -1,12 +1,10 @@
-import {
-  Controller,
-  Body,
-  Post,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Controller, Body, Post, ValidationPipe, Patch } from '@nestjs/common';
 
 import { SignupService } from 'src/users/services/auth/sign-up.service';
-import { CreateUserSingUpDto } from 'src/users/dto/create-user.dto';
+import {
+  CreateUserSingUpDto,
+  VerificationAccountDto,
+} from 'src/users/dto/create-user.dto';
 
 // @Desc any user can registration or create account
 // @Route POST /signup
@@ -22,5 +20,12 @@ export class SingupController {
     createUserDto: CreateUserSingUpDto,
   ): Promise<{ data: CreateUserSingUpDto; token: string }> {
     return this.signupService.signup(createUserDto);
+  }
+  @Patch()
+  verificationAccount(
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    verificationAccountDto: VerificationAccountDto,
+  ): Promise<{ data: CreateUserSingUpDto; token: string }> {
+    return this.signupService.verificationAccount(verificationAccountDto);
   }
 }
