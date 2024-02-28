@@ -42,7 +42,9 @@ export class SignupService {
 
         `<div><h4>Hello Mr/<b> ${user.firstName} ${user.lastName}</b></h4> \n <h4>this your code <h1 style="color:red;background:#dadada;width="fit-content";padding="5px 10px";border-radius="8px">${verificationAccountCode}</h1></h4> <h5>The duration of this code is <b>2 minutes.</b></h5>\n With regards, <b>Trip</b></div>`,
       );
-      await this.usersModule.findOneAndUpdate(user._id, {verificationAccountCode});//user._id, { verificationAccountCode }
+      await this.usersModule.findOneAndUpdate(user._id, {
+        verificationAccountCode,
+      }); //user._id, { verificationAccountCode }
       return {
         data: createUserDto,
         token: 'varification',
@@ -144,9 +146,7 @@ export class SignupService {
         { verificationAccountCode: 'done' },
         { new: true },
       )
-      .select(
-        '_id firstName lastName email userName role phoneNumber createdAt updatedAt active ',
-      );
+      .select('-password ');
     const payload: { _id: string; userName: string; role: string } = {
       _id: handleUser._id,
       userName: handleUser.userName,
@@ -155,6 +155,6 @@ export class SignupService {
     const token = await this.jwtService.signAsync(payload, {
       secret: process.env.JWT_SECRET,
     });
-    return { data: payload, token };
+    return { data: handleUser, token };
   }
 }
