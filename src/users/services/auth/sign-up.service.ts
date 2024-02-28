@@ -145,7 +145,7 @@ export class SignupService {
         { new: true },
       )
       .select(
-        '_id firstName lastName email userName  phoneNumber createdAt updatedAt active ',
+        '_id firstName lastName email userName role phoneNumber createdAt updatedAt active ',
       );
     const payload: { _id: string; userName: string; role: string } = {
       _id: handleUser._id,
