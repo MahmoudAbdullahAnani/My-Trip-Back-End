@@ -28,11 +28,21 @@ export class SignupService {
     const user = await this.usersModule.findOne({
       userName: createUserDto.userName,
     });
+    const verificationAccount = user?.verificationAccountCode || '';
+    if (verificationAccount !== 'done' && verificationAccount) {
+      // Create code example (854789)
+      // Generate a verification code (a simple 6-digit code)
+      const verificationAccountCode = Math.floor(
+        100000 + Math.random() * 900000,
+      );
+      await this.emailService.sendMail(
+        process.env.USER,
+        createUserDto.email,
+        'Account Confirmation',
 
-    if (
-      user.verificationAccountCode !== 'done' &&
-      user.verificationAccountCode
-    ) {
+        `<div><h4>Hello Mr/<b> ${user.firstName} ${user.lastName}</b></h4> \n <h4>this your code <h1 style="color:red;background:#dadada;width="fit-content";padding="5px 10px";border-radius="8px">${verificationAccountCode}</h1></h4> <h5>The duration of this code is <b>2 minutes.</b></h5>\n With regards, <b>Trip</b></div>`,
+      );
+      await this.usersModule.updateOne(user._id, { verificationAccountCode });
       return {
         data: createUserDto,
         token: 'varification',
