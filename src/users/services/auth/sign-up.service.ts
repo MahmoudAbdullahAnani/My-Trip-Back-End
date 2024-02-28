@@ -42,7 +42,7 @@ export class SignupService {
 
         `<div><h4>Hello Mr/<b> ${user.firstName} ${user.lastName}</b></h4> \n <h4>this your code <h1 style="color:red;background:#dadada;width="fit-content";padding="5px 10px";border-radius="8px">${verificationAccountCode}</h1></h4> <h5>The duration of this code is <b>2 minutes.</b></h5>\n With regards, <b>Trip</b></div>`,
       );
-      await this.usersModule.updateOne(user._id, { verificationAccountCode });
+      await this.usersModule.findOneAndUpdate(user._id, {verificationAccountCode});//user._id, { verificationAccountCode }
       return {
         data: createUserDto,
         token: 'varification',
