@@ -50,6 +50,6 @@ export class SearchFriendsService {
         select: 'firstName lastName friends avatar',
       });
 
-    return friends;
+    return { data: friends, count: friends.length };
   }
 }
