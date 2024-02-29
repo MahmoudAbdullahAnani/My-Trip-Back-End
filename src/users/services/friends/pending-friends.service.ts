@@ -87,12 +87,11 @@ export class PendingFriendsService {
     const userSender = payload._id; // user sender Friend request
     return this.users
       .findById(userSender)
-      .select('pendingFriends ')
+      .select('pendingFriends avatar')
       .populate({
         path: 'pendingFriends',
-        select: 'firstName lastName friends',
-      })
-
+        select: 'firstName lastName friends avatar',
+      });
   }
 
   async findOne(id, req) {
@@ -109,12 +108,12 @@ export class PendingFriendsService {
 
     const pendingFriends = this.users
       .findById(userSender)
-      .select('pendingFriends friends')
+      .select('pendingFriends friends avatar')
       .populate({
         path: 'pendingFriends',
-        select: 'firstName lastName friends',
-      })
-      
+        select: 'firstName lastName friends avatar',
+      });
+
     const pendingFriend = (await pendingFriends).pendingFriends.filter(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

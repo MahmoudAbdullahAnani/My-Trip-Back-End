@@ -34,11 +34,11 @@ export class FriendsService {
     const userSender = payload._id; // user sender Friend request
     return this.users
       .findById(userSender)
-      .select('friends firstName lastName')
+      .select('friends firstName lastName avatar')
       .populate({
         path: 'friends',
-        select: 'firstName lastName friends',
-      })
+        select: 'firstName lastName friends avatar',
+      });
   }
 
   async findOne(id, req) {
@@ -53,13 +53,10 @@ export class FriendsService {
     });
     const userSender = payload._id; // user sender Friend request
 
-    const friends = this.users
-      .findById(userSender)
-      .select('friends')
-      .populate({
-        path: 'friends',
-        select: 'firstName lastName friends',
-      })
+    const friends = this.users.findById(userSender).select('friends').populate({
+      path: 'friends',
+      select: 'firstName lastName friends avatar',
+    });
     const friendsSingle = (await friends).friends.filter(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
