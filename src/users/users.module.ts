@@ -20,8 +20,12 @@ import { userConnectionProvider } from './providers/databaseConnection.provider'
 import { DatabaseModule } from 'src/database/database.module';
 import { PendingFriendsController } from './controllers/friends/pending-friends.controller';
 import { PendingFriendsService } from './services/friends/pending-friends.service';
-import { FriendsController } from './controllers/friends/friends.controller';
+import {
+  FriendsController,
+  SearchFriendsController,
+} from './controllers/friends/friends.controller';
 import { FriendsService } from './services/friends/friends.service';
+import { SearchFriendsService } from './services/friends/search-friends.service';
 
 @Module({
   imports: [
@@ -42,6 +46,7 @@ import { FriendsService } from './services/friends/friends.service';
     UpdatePasswordController,
     PendingFriendsController,
     FriendsController,
+    SearchFriendsController,
   ],
   providers: [
     ...userConnectionProvider,
@@ -53,6 +58,7 @@ import { FriendsService } from './services/friends/friends.service';
     FriendsService,
     ResetPasswordService,
     EmailService,
+    SearchFriendsService,
   ],
 })
 export class UsersModule {}

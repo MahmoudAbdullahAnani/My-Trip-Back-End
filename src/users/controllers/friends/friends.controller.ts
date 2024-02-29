@@ -3,6 +3,7 @@ import { UsersGuard } from 'src/users/guards/users.guard';
 import { Roles } from 'src/users/guards/roles.decorator';
 import { Request } from '@nestjs/common';
 import { FriendsService } from 'src/users/services/friends/friends.service';
+import { SearchFriendsService } from 'src/users/services/friends/search-friends.service';
 @Controller('friends')
 @UseGuards(UsersGuard)
 export class FriendsController {
@@ -39,4 +40,18 @@ export class FriendsController {
     return this.FriendsService.update(id, operation, req);
   }
   // =========================================================================================================================================
+}
+@Controller('search-friends')
+@UseGuards(UsersGuard)
+export class SearchFriendsController {
+  constructor(private readonly searchFriendsService: SearchFriendsService) {}
+  // =========================================================================================================================================
+  // @Desc can user search for users
+  // @Route GET /search-friends
+  // @Access ['user']
+  @Get(':keyword')
+  @Roles(['user'])
+  findAll(@Request() req, @Param('keyword') keyword) {
+    return this.searchFriendsService.findOne(keyword, req);
+  }
 }
