@@ -7,12 +7,16 @@ import {
   Param,
   Delete,
   ValidationPipe,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import {
   CreateOrderPayPallDto,
   CreateOrderStripeDto,
 } from './dto/create-order.dto';
+import { UsersGuard } from 'src/users/guards/users.guard';
+import { Roles } from 'src/users/guards/roles.decorator';
 
 @Controller('checkout-completed/stripe')
 export class OrdersStripeController {
@@ -46,11 +50,12 @@ export class OrdersPayPallController {
 @Controller('checkout-completed')
 export class CompletedOrdersController {
   constructor(private readonly ordersService: OrdersService) {}
+  // =========================================================================================================================================
 
   // @Desc When user completed payment then create order in system
   // @Route POST /checkout-completed
   // @Access ['User Payment']
-  
+
   @Post()
   createPaypal(
     @Body()
@@ -58,4 +63,20 @@ export class CompletedOrdersController {
   ) {
     return this.ordersService.createOrder(OrderData);
   }
+  // =========================================================================================================================================
+  // =========================================================================================================================================
+
+  // @Desc user can view order
+  // @Route Get /checkout-completed
+  // @Access ['user']
+  @Get()
+  @UseGuards(UsersGuard)
+  @Roles(['user'])
+  findMyOrders(
+    @Request()
+    req,
+  ) {
+    return this.ordersService.findMyOrders(req);
+  }
+  // =========================================================================================================================================
 }

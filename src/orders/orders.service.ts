@@ -1,10 +1,16 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import {
   CreateOrderPayPallDto,
   CreateOrderStripeDto,
 } from './dto/create-order.dto';
 import { Model } from 'mongoose';
 import { OrderInterfacer } from './interfaces/users.interface';
+import { JwtService } from '@nestjs/jwt';
 const stripe = require('stripe')(
   'sk_test_51OhY70Jz9GDytzMTDBZgLDGZRcmsIjHMoRgAfFwRkBB62r86y0QMzTzJwD21XNvo7tYWG7iJmBSs6IivPC9yDtWW00rRjVXqDX',
 );
@@ -13,6 +19,7 @@ const stripe = require('stripe')(
 export class OrdersService {
   constructor(
     @Inject('ORDER_MODEL') private readonly order: Model<OrderInterfacer>,
+    private jwtService: JwtService,
   ) {}
 
   async createStripe(OrderData: CreateOrderStripeDto): Promise<any> {
@@ -144,5 +151,23 @@ export class OrdersService {
         status: OrderData.status,
       });
     }
+  }
+
+  // Finds
+  async findMyOrders(req): Promise<any> {
+    const token = req.headers?.authorization.split(' ')[1];
+
+    if (!token) {
+      throw new UnauthorizedException();
+    }
+
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: process.env.JWT_SECRET,
+    });
+
+    const orders = await this.order.find({
+      user_id: payload._id,
+    });
+    return { data: orders, count: orders.length };
   }
 }
