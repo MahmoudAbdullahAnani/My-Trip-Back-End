@@ -84,6 +84,14 @@ export class FriendsService {
 
     // If User rejected pending friend ===> return message
     if (operation === 'delete') {
+      await this.users
+        .findByIdAndUpdate(
+          id,
+          {
+            $pull: { friends: userSender },
+          },
+          { new: true },
+        )
       return await this.users
         .findByIdAndUpdate(
           userSender,
