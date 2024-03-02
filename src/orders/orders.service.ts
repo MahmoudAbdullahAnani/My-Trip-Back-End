@@ -98,6 +98,17 @@ export class OrdersService {
                   user_action: 'PAY_NOW',
                   return_url: OrderData.urlSuccess,
                   cancel_url: OrderData.urlCancel,
+                  metadata: {
+                    description: OrderData.description,
+                    user_id: OrderData.user_id,
+                    price: OrderData.price.toString(),
+                    logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
+                    timeGo: OrderData.timeGo || '',
+                    timeSet: OrderData.timeSet || '',
+                    durationH: OrderData.durationH || '',
+                    durationM: OrderData.durationM || '',
+                    isStope: OrderData.isStope || 0,
+                  },
                 },
               },
             },
@@ -152,6 +163,8 @@ export class OrdersService {
 
     // Paypal
     if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
+      console.log({ OrderData });
+
       return await this.order.create({
         name: `${OrderData.resource.payer.name.given_name} ${OrderData.resource.payer.name.surname}`,
         totalOrderPrice: +OrderData.resource.purchase_units[0].amount.value,
@@ -165,6 +178,7 @@ export class OrdersService {
         payment_method_types: `Paypal`,
         payment_intent: OrderData.resource.intent,
         status: OrderData.status,
+        metaData: OrderData.metaData || 'null',
       });
     }
   }

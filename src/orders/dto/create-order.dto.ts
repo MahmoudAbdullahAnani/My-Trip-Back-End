@@ -41,4 +41,14 @@ export class CreateOrderPayPallDto {
   userEmail: string;
   @IsString({ message: 'carrierCodeLogo Must be string' })
   carrierCodeLogo: string;
+  @IsString({ message: 'timeGo Must be string' })
+  timeGo: string;
+  @IsString({ message: 'timeSet Must be string' })
+  timeSet: string;
+  @IsString({ message: 'durationH Must be string' })
+  durationM: string;
+  @IsString({ message: 'durationM Must be string' })
+  durationH: string;
+  @IsNumber({}, { message: 'isStope Must be number' })
+  isStope: number;
 }
