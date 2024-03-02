@@ -25,6 +25,9 @@ export const OrderSchema = new mongoose.Schema(
       timeGo: String,
       timeSet: String,
       user_id: String,
+      durationH: String,
+      durationM: String,
+      isStope: Number,
     },
   },
   {

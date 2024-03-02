@@ -52,6 +52,9 @@ export class OrdersService {
         logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
         timeGo: OrderData.timeGo || '',
         timeSet: OrderData.timeSet || '',
+        durationH: OrderData.durationH || '',
+        durationM: OrderData.durationM || '',
+        isStope: OrderData.isStope || '',
       },
     });
     return session;

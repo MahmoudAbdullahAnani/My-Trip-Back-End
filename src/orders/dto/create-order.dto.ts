@@ -19,6 +19,12 @@ export class CreateOrderStripeDto {
   timeGo: string;
   @IsString({ message: 'timeSet Must be string' })
   timeSet: string;
+  @IsString({ message: 'durationH Must be string' })
+  durationM: string;
+  @IsString({ message: 'durationM Must be string' })
+  durationH: string;
+  @IsNumber({}, { message: 'isStope Must be number' })
+  isStope: string;
 }
 export class CreateOrderPayPallDto {
   @IsNumber({}, { message: 'price Must be number' })

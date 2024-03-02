@@ -18,5 +18,8 @@ export interface OrderInterfacer extends Document {
     timeGo: string;
     timeSet: string;
     user_id: string;
+    durationH: string;
+    durationM: string;
+    isStope: string;
   };
 }
