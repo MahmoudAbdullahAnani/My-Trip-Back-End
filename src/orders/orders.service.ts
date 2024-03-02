@@ -141,6 +141,7 @@ export class OrdersService {
         payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
         payment_intent: OrderData.data.object.payment_intent,
         status: OrderData.data.object.status,
+        metaData: OrderData.data.object.metadata,
       });
     }
 

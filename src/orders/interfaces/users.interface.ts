@@ -11,4 +11,12 @@ export interface OrderInterfacer extends Document {
   readonly payment_method_types: string;
   readonly payment_intent: string;
   readonly status: string;
+  readonly metaData: {
+    description: string;
+    logo: string;
+    price: string;
+    timeGo: string;
+    timeSet: string;
+    user_id: string;
+  };
 }
