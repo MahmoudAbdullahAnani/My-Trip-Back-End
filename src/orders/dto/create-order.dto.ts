@@ -15,6 +15,10 @@ export class CreateOrderStripeDto {
   userEmail: string;
   @IsString({ message: 'carrierCodeLogo Must be string' })
   carrierCodeLogo: string;
+  @IsString({ message: 'timeGo Must be string' })
+  timeGo: string;
+  @IsString({ message: 'timeSet Must be string' })
+  timeSet: string;
 }
 export class CreateOrderPayPallDto {
   @IsNumber({}, { message: 'price Must be number' })
@@ -32,4 +36,3 @@ export class CreateOrderPayPallDto {
   @IsString({ message: 'carrierCodeLogo Must be string' })
   carrierCodeLogo: string;
 }
-

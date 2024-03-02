@@ -49,6 +49,9 @@ export class OrdersService {
         description: OrderData.description,
         user_id: OrderData.user_id,
         price: OrderData.price.toString(),
+        logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
+        timeGo: OrderData.timeGo,
+        timeSet: OrderData.timeSet,
       },
     });
     return session;
