@@ -57,7 +57,7 @@ export class CompletedOrdersController {
   // @Access ['User Payment']
 
   @Post()
-  createPaypal(
+  createOrder(
     @Body()
     OrderData,
   ) {

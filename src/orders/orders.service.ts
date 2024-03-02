@@ -45,6 +45,11 @@ export class OrdersService {
       cancel_url: OrderData.urlCancel,
       client_reference_id: OrderData.user_id,
       customer_email: OrderData.userEmail,
+      metadata: {
+        description: OrderData.description,
+        user_id: OrderData.user_id,
+        price: OrderData.price.toString(),
+      },
     });
     return session;
   }
@@ -117,6 +122,7 @@ export class OrdersService {
     return data;
   }
   async createOrder(OrderData): Promise<any> {
+    // stripe
     if (OrderData.type === 'checkout.session.completed') {
       return await this.order.create({
         name: OrderData.data.object.customer_details.name,
@@ -135,6 +141,7 @@ export class OrdersService {
       });
     }
 
+    // Paypal
     if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
       return await this.order.create({
         name: `${OrderData.resource.payer.name.given_name} ${OrderData.resource.payer.name.surname}`,
