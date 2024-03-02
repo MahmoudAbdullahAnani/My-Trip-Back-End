@@ -23,6 +23,8 @@ export class OrdersService {
   ) {}
 
   async createStripe(OrderData: CreateOrderStripeDto): Promise<any> {
+    // console.log({ isStope: OrderData.isStope });
+
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
