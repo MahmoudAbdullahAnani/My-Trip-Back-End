@@ -54,7 +54,7 @@ export class OrdersService {
         timeSet: OrderData.timeSet || '',
         durationH: OrderData.durationH || '',
         durationM: OrderData.durationM || '',
-        isStope: OrderData.isStope || '',
+        isStope: OrderData.isStope || 0,
       },
     });
     return session;
