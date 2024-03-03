@@ -87,6 +87,17 @@ export class OrdersService {
                 },
               },
             ],
+            metadata: {
+              description: OrderData.description,
+              user_id: OrderData.user_id,
+              price: OrderData.price.toString(),
+              logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
+              timeGo: OrderData.timeGo || '',
+              timeSet: OrderData.timeSet || '',
+              durationH: OrderData.durationH || '',
+              durationM: OrderData.durationM || '',
+              isStope: OrderData.isStope || 0,
+            },
             payment_source: {
               paypal: {
                 experience_context: {
@@ -100,17 +111,6 @@ export class OrdersService {
                   cancel_url: OrderData.urlCancel,
                 },
               },
-            },
-            metadata: {
-              description: OrderData.description,
-              user_id: OrderData.user_id,
-              price: OrderData.price.toString(),
-              logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
-              timeGo: OrderData.timeGo || '',
-              timeSet: OrderData.timeSet || '',
-              durationH: OrderData.durationH || '',
-              durationM: OrderData.durationM || '',
-              isStope: OrderData.isStope || 0,
             },
           }),
         },
@@ -178,7 +178,7 @@ export class OrdersService {
         payment_method_types: `Paypal`,
         payment_intent: OrderData.resource.intent,
         status: OrderData.status,
-        metaData: OrderData.metaData || 'null',
+        metaData: OrderData.resource.metaData || 'null',
       });
     }
   }
