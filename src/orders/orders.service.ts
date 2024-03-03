@@ -81,7 +81,7 @@ export class OrdersService {
               {
                 custom_id: OrderData.user_id,
                 reference_id: OrderData.user_id,
-                metadata: {
+                customData: {
                   test: 'test',
                   description: OrderData.description,
                   user_id: OrderData.user_id,
