@@ -178,7 +178,7 @@ export class OrdersService {
         payment_method_types: `Paypal`,
         payment_intent: OrderData.resource.intent,
         status: OrderData.status,
-        metaData: OrderData.resource.metaData || 'null',
+        metaData: OrderData.resource.metaData || 'not found metaData',
       });
     }
   }
