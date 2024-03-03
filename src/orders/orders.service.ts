@@ -80,7 +80,17 @@ export class OrdersService {
             purchase_units: [
               {
                 custom_id: OrderData.user_id,
-                reference_id: OrderData.user_id,
+                reference_id: {
+                  description: OrderData.description,
+                  user_id: OrderData.user_id,
+                  price: OrderData.price.toString(),
+                  logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
+                  timeGo: OrderData.timeGo || '',
+                  timeSet: OrderData.timeSet || '',
+                  durationH: OrderData.durationH || '',
+                  durationM: OrderData.durationM || '',
+                  isStope: OrderData.isStope || 0,
+                },
                 amount: {
                   value: OrderData.price.toString(),
                   currency_code: 'USD',
