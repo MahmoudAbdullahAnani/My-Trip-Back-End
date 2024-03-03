@@ -81,24 +81,24 @@ export class OrdersService {
               {
                 custom_id: OrderData.user_id,
                 reference_id: OrderData.user_id,
+                metadata: {
+                  test: 'test',
+                  description: OrderData.description,
+                  user_id: OrderData.user_id,
+                  price: OrderData.price.toString(),
+                  logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
+                  timeGo: OrderData.timeGo || '',
+                  timeSet: OrderData.timeSet || '',
+                  durationH: OrderData.durationH || '',
+                  durationM: OrderData.durationM || '',
+                  isStope: OrderData.isStope || 0,
+                },
                 amount: {
                   value: OrderData.price.toString(),
                   currency_code: 'USD',
                 },
               },
             ],
-            metadata: {
-              test: 'test',
-              description: OrderData.description,
-              user_id: OrderData.user_id,
-              price: OrderData.price.toString(),
-              logo: `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${OrderData.carrierCodeLogo}.svg`,
-              timeGo: OrderData.timeGo || '',
-              timeSet: OrderData.timeSet || '',
-              durationH: OrderData.durationH || '',
-              durationM: OrderData.durationM || '',
-              isStope: OrderData.isStope || 0,
-            },
             payment_source: {
               paypal: {
                 experience_context: {
@@ -179,7 +179,8 @@ export class OrdersService {
         payment_method_types: `Paypal`,
         payment_intent: OrderData.resource.intent,
         status: OrderData.status,
-        metaData: OrderData.resource.metaData || 'not found metaData',
+        metaData:
+          OrderData.resource.purchase_units[0].metaData || 'not found metaData',
       });
     }
   }
