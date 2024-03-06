@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 // import { AirportSearchModule } from './airport-search/airport-search.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { OrdersModule } from './orders/orders.module';
-import { CatchDataModule } from './catch-data/catch-data.module';
+// import { CatchDataModule } from './catch-data/catch-data.module';
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { CatchDataModule } from './catch-data/catch-data.module';
     UsersModule,
     NotificationsModule,
     OrdersModule,
-    CatchDataModule,
+    // CatchDataModule,
     // AirportSearchModule,
   ],
 })
