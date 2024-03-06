@@ -24,16 +24,16 @@ export class CatchDataService {
     );
     return { data: catchData, status: 200 };
   }
-  async updateTicketCatchingData(catchDataDto, id) {
-    const catchData = await this.chatchData.findByIdAndUpdate(
-      id,
-      {
-        $addToSet: { chooseTicket: catchDataDto.chooseTicket },
-      },
-      { new: true },
-    );
-    return { data: catchData, status: 200 };
-  }
+  // async updateTicketCatchingData(catchDataDto, id) {
+  //   const catchData = await this.chatchData.findByIdAndUpdate(
+  //     id,
+  //     {
+  //       $addToSet: { chooseTicket: catchDataDto.chooseTicket },
+  //     },
+  //     { new: true },
+  //   );
+  //   return { data: catchData, status: 200 };
+  // }
 
   async findAll(): Promise<{
     data: CatchDataInterfacer[];

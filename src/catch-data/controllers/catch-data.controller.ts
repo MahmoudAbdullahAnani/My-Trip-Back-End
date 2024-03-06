@@ -46,14 +46,14 @@ export class CatchDataController {
   // @Desc This is Request for update (ticket) catch data (openWebsite, search, chooseTicket) on the project
   // @Route Patch /catch-data/:id
   // @Access Not Access
-  @Patch('/ticket/:id')
-  async updateTicketCatchingData(
-    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    catchDataDto: CatchDataDto,
-    @Param('id') id: string,
-  ) {
-    return await this.catchDataService.updateTicketCatchingData(catchDataDto, id);
-  }
+  // @Patch('/ticket/:id')
+  // async updateTicketCatchingData(
+  //   @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  //   catchDataDto: CatchDataDto,
+  //   @Param('id') id: string,
+  // ) {
+  //   return await this.catchDataService.updateTicketCatchingData(catchDataDto, id);
+  // }
   // =========================================================================================================================================
   // @Desc can admin or manger get all data (openWebsite, search, chooseTicket) on the project
   // @Route Get /catch-data
