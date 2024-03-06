@@ -15,9 +15,9 @@ import { CatchDataDto } from '../dto/CatchDataDto.dto';
 export class CatchDataController {
   constructor(private readonly catchDataService: CatchDataService) {}
   // =========================================================================================================================================
-  // @Desc can admin or manger get all data (openWebsite, search, chooseTicket) on the project
-  // @Route Get /catch-data
-  // @Access ['admin', 'manger']
+  // @Desc This is Request for catch data (openWebsite, search, chooseTicket) on the project
+  // @Route Post /catch-data
+  // @Access Not Access
   @Post()
   async catchingData(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
