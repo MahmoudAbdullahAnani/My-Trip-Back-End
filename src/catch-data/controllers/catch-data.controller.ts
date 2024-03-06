@@ -31,17 +31,17 @@ export class CatchDataController {
   // @Desc This is Request for update (search) catch data (openWebsite, search, chooseTicket) on the project
   // @Route Patch /catch-data/:id
   // @Access Not Access
-  @Patch('/search/:id')
-  async updateSearchCatchingData(
-    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    catchDataDto: CatchDataDto,
-    @Param('id') id: string,
-  ) {
-    return await this.catchDataService.updateSearchCatchingData(
-      catchDataDto,
-      id,
-    );
-  }
+  // @Patch('/search/:id')
+  // async updateSearchCatchingData(
+  //   @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  //   catchDataDto: CatchDataDto,
+  //   @Param('id') id: string,
+  // ) {
+  //   return await this.catchDataService.updateSearchCatchingData(
+  //     catchDataDto,
+  //     id,
+  //   );
+  // }
   // =========================================================================================================================================
   // @Desc This is Request for update (ticket) catch data (openWebsite, search, chooseTicket) on the project
   // @Route Patch /catch-data/:id
