@@ -1,6 +1,7 @@
 import { IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CatchDataDto {
+  @IsOptional()
   @IsObject({ message: 'open Website must be an object' })
   openWebsite: {
     user_id: string;
@@ -9,8 +10,8 @@ export class CatchDataDto {
   @IsOptional()
   @IsObject({ message: 'search must be an object' })
   search: {
-    user_id: string;
-    isGuest: boolean;
+    // user_id: string;
+    // isGuest: boolean;
 
     systemSearch: string;
     typeSearch: string;
@@ -18,8 +19,8 @@ export class CatchDataDto {
     fromLocation: string;
     toLocation: string;
 
-    fromDate: Date;
-    toDate: Date;
+    fromDate: string;
+    toDate: string;
 
     numberAdults: Number;
     numberChild: Number;
@@ -29,8 +30,8 @@ export class CatchDataDto {
   @IsOptional()
   @IsObject({ message: 'choose Ticket must be an object' })
   chooseTicket: {
-    user_id: string;
-    isGuest: boolean;
+    // user_id: string;
+    // isGuest: boolean;
 
     CompanyLogo: string;
     isStope: Number;
