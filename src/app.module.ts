@@ -9,9 +9,9 @@ import { OrdersModule } from './orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    UsersModule,
-    NotificationsModule,
-    OrdersModule,
+    // UsersModule,
+    // NotificationsModule,
+    // OrdersModule,
     // CatchDataModule,
     // AirportSearchModule,
   ],
