@@ -28,7 +28,7 @@ export class CatchDataService {
     const catchData = await this.chatchData.findByIdAndUpdate(
       id,
       {
-        $addToSet: { chooseTicket: catchDataDto.search },
+        $addToSet: { chooseTicket: catchDataDto.chooseTicket },
       },
       { new: true },
     );
