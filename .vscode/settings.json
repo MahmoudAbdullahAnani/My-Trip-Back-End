@@ -3,6 +3,7 @@
         "chatch",
         "CLIENTID",
         "CLIENTSECRET",
+        "Cloudinary",
         "EXPIRESIN",
         "Frinde",
         "Frindes",
@@ -15,6 +16,7 @@
         "Signin",
         "Singin",
         "Singup",
+        "streamifier",
         "typeorm",
         "varification"
     ]
