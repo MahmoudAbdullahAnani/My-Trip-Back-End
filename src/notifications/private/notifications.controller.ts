@@ -99,9 +99,9 @@ export class NotificationsUserMeController {
   // For UsersMe =========================================================================================================================================
   // @Desc get Auto All Notification on User Account
   // @Route Post /notificationsUserMe
-  // @Access ['user']
+  // @Access ['admin', 'manger', 'user']
   @Get()
-  @Roles(['user'])
+  @Roles(['admin', 'manger', 'user'])
   @UseGuards(UsersGuard)
   getUserNotifications(@Req() req: any) {
     return this.notificationsService.getUserNotifications(req);
@@ -109,9 +109,9 @@ export class NotificationsUserMeController {
   // For UsersMe =========================================================================================================================================
   // @Desc upDate Auto Notifications see on User Account
   // @Route Patch /notificationsUserMe
-  // @Access ['user']
+  // @Access ['admin', 'manger', 'user']
   @Patch(':notificationId')
-  @Roles(['user'])
+  @Roles(['admin', 'manger', 'user'])
   @UseGuards(UsersGuard)
   updateUserNotifications(
     @Param('notificationId') notificationId,
@@ -125,9 +125,9 @@ export class NotificationsUserMeController {
   // For UsersMe =========================================================================================================================================
   // @Desc Clear All Notifications on User Account
   // @Route Patch /notificationsUserMe
-  // @Access ['user']
+  // @Access ['admin', 'manger', 'user']
   @Delete()
-  @Roles(['user'])
+  @Roles(['admin', 'manger', 'user'])
   @UseGuards(UsersGuard)
   clearUserNotifications(@Req() req: any) {
     return this.notificationsService.clearUserMeNotification(req);

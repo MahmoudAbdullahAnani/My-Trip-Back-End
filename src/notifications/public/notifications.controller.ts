@@ -26,8 +26,8 @@ export class PublicNotificationsController {
   // @Route Get /public/notifications
   // @Access ['admin', 'manger']
   @Get()
-  @Roles(['admin', 'manger', 'user'])
-  @UseGuards(UsersGuard)
+  // @Roles(['admin', 'manger', 'user'])
+  // @UseGuards(UsersGuard)
   getPublicNotifications(@Req() req: any) {
     return this.publicNotificationsService.getPublicNotifications(req);
   }
@@ -37,8 +37,8 @@ export class PublicNotificationsController {
   // @Route Get /public/notifications/:notificationId
   // @Access ['admin', 'manger', 'user']
   @Get(':notificationId')
-  @Roles(['admin', 'manger', 'user'])
-  @UseGuards(UsersGuard)
+  // @Roles(['admin', 'manger', 'user'])
+  // @UseGuards(UsersGuard)
   getSinglePublicNotification(
     @Param('notificationId') notificationId,
     @Req() req: any,
