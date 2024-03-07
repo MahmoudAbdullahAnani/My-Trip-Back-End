@@ -100,20 +100,26 @@ export class FriendsService {
           },
           { new: true },
         )
-        .select('firstName lastName friends pendingFriends')
+        .select('firstName lastName avatar friends pendingFriends')
         .populate({
           path: 'pendingFriends',
-          select: 'firstName lastName email',
+          select: 'firstName lastName avatar email',
         })
-        .populate({ path: 'friends', select: 'firstName lastName email' });
+        .populate({
+          path: 'friends',
+          select: 'firstName avatar lastName email',
+        });
     }
 
     // If User accept pending friend ===> add to friend
     const addFriend = await this.users
       .findById(userSender)
       .select('firstName lastName friends pendingFriends')
-      .populate({ path: 'pendingFriends', select: 'firstName lastName email' })
-      .populate({ path: 'friends', select: 'firstName lastName email' });
+      .populate({
+        path: 'pendingFriends',
+        select: 'firstName avatar lastName email',
+      })
+      .populate({ path: 'friends', select: 'firstName avatar lastName email' });
 
     return addFriend;
   }

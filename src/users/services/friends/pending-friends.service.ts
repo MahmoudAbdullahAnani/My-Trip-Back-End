@@ -146,12 +146,12 @@ export class PendingFriendsService {
         },
         { new: true },
       )
-      .select('firstName lastName friends pendingFriends friends')
+      .select('firstName lastName avatar friends pendingFriends friends')
       .populate({
         path: 'pendingFriends',
-        select: 'firstName lastName email',
+        select: 'firstName lastName avatar email',
       })
-      .populate({ path: 'friends', select: 'firstName lastName email' });
+      .populate({ path: 'friends', select: 'firstName avatar lastName email' });
 
     // If User rejected pending friend ===> return message
     if (operation === 'no') {
@@ -167,12 +167,12 @@ export class PendingFriendsService {
         },
         { new: true },
       )
-      .select('firstName lastName friends pendingFriends friends')
+      .select('firstName lastName avatar friends pendingFriends friends')
       .populate({
         path: 'pendingFriends',
-        select: 'firstName lastName email',
+        select: 'firstName lastName avatar email',
       })
-      .populate({ path: 'friends', select: 'firstName lastName email' });
+      .populate({ path: 'friends', select: 'firstName lastName avatar email' });
     const addFriendSender = await this.users
       .findByIdAndUpdate(
         id,
@@ -181,12 +181,12 @@ export class PendingFriendsService {
         },
         { new: true },
       )
-      .select('firstName lastName friends pendingFriends friends')
+      .select('firstName lastName friends avatar pendingFriends friends')
       .populate({
         path: 'pendingFriends',
-        select: 'firstName lastName email',
+        select: 'firstName lastName avatar email',
       })
-      .populate({ path: 'friends', select: 'firstName lastName email' });
+      .populate({ path: 'friends', select: 'firstName avatar lastName email' });
 
     return addFriendReceiver;
   }

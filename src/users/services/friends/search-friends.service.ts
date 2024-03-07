@@ -44,10 +44,10 @@ export class SearchFriendsService {
           { userName: { $regex: keyword, $options: 'i' } },
         ],
       })
-      .select('firstName lastName friends avatar')
+      .select('firstName lastName avatar friends avatar')
       .populate({
         path: 'friends',
-        select: 'firstName lastName friends avatar',
+        select: 'firstName lastName avatar friends avatar',
       });
 
     return { data: friends, count: friends.length };

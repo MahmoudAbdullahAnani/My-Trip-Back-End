@@ -54,7 +54,7 @@ export class UsersService {
     return await this.userModule
       .find({})
       .select(
-        '_id firstName lastName email userName role phoneNumber createdAt updatedAt active ',
+        '_id firstName lastName avatar email userName role phoneNumber createdAt updatedAt active ',
       );
   }
 
@@ -92,13 +92,13 @@ export class UsersService {
           { new: true },
         )
         .select(
-          '_id firstName lastName email userName  phoneNumber createdAt updatedAt active ',
+          '_id firstName lastName email userName avatar phoneNumber createdAt updatedAt active ',
         );
     } else {
       userUpdate = await this.userModule
         .findOneAndUpdate({ _id: user._id }, updateUserDto, { new: true })
         .select(
-          '_id firstName lastName email userName  phoneNumber createdAt updatedAt active ',
+          '_id firstName lastName email userName avatar phoneNumber createdAt updatedAt active ',
         );
     }
     return userUpdate;
