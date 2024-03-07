@@ -26,6 +26,7 @@ export class UploadService {
     if (!token) {
       throw new UnauthorizedException();
     }
+
     const { _id } = await this.jwtService.verifyAsync(token, {
       secret: process.env.JWT_SECRET,
     });
