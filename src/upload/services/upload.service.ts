@@ -29,6 +29,7 @@ export class UploadService {
     const { _id } = await this.jwtService.verifyAsync(token, {
       secret: process.env.JWT_SECRET,
     });
+
     return new Promise<CloudinaryResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         (error, result) => {
@@ -36,7 +37,6 @@ export class UploadService {
           resolve(result);
         },
       );
-
       streamifier.createReadStream(file.buffer).pipe(uploadStream);
     }).then(async (result) => {
       await this.usersModule.findByIdAndUpdate(_id, {
