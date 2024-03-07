@@ -4,13 +4,18 @@ import {
   //   MaxFileSizeValidator,
   ParseFilePipe,
   Post,
+  Request,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { UploadService } from '../services/upload.service';
+import { UsersGuard } from 'src/users/guards/users.guard';
+import { Roles } from 'src/users/guards/roles.decorator';
 @Controller('upload')
+@UseGuards(UsersGuard)
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
@@ -18,6 +23,7 @@ export class UploadController {
   // @Route POST /upload
   // @Access ['admin', 'manger', 'user']
   @Post()
+  @Roles(['admin', 'manger', 'user'])
   @UseInterceptors(FileInterceptor('file'))
   upload(
     @UploadedFile(
@@ -29,7 +35,8 @@ export class UploadController {
       }),
     )
     file: Express.Multer.File,
+    @Request() req,
   ) {
-    return this.uploadService.uploadFile(file);
+    return this.uploadService.uploadFile(file, req);
   }
 }
