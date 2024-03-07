@@ -25,7 +25,6 @@ export class CatchDataService {
     return { data: catchData, status: 200 };
   }
 
-  
   async updateTicketCatchingData(catchDataDto, id) {
     const catchData = await this.chatchData.findByIdAndUpdate(
       id,
@@ -57,5 +56,20 @@ export class CatchDataService {
       throw new NotFoundException();
     }
     return { data: chatchData, status: 200 };
+  }
+  async findHistory(
+    user_id,
+  ): Promise<{ data: CatchDataInterfacer[]; count: number; status: number }> {
+    const chatchData = await this.chatchData
+      .find({ 'openWebsite.user_id': user_id })
+      .populate({
+        path: 'search.user_id',
+        select: 'firstName lastName email userName avatar',
+      });
+
+    if (chatchData.length <= 0) {
+      throw new NotFoundException();
+    }
+    return { data: chatchData, count: chatchData.length, status: 200 };
   }
 }

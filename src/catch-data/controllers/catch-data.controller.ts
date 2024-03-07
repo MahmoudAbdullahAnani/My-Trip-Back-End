@@ -78,4 +78,14 @@ export class CatchDataController {
     return await this.catchDataService.findOne(id);
   }
   // =========================================================================================================================================
+  // @Desc can admin or manger get single data (openWebsite, search, chooseTicket) on the project
+  // @Route Get /catch-data/:id
+  // @Access ['admin', 'manger']
+  @Get('/history/:id')
+  @UseGuards(UsersGuard)
+  @Roles(['admin', 'manger'])
+  async findHistory(@Param('id') user_id: string) {
+    return await this.catchDataService.findHistory(user_id);
+  }
+  // =========================================================================================================================================
 }
