@@ -11,9 +11,9 @@ export class FriendsController {
   // =========================================================================================================================================
   // @Desc can user show all friends on account
   // @Route GET /friends
-  // @Access ['user']
+  // @Access ['admin','manger','user']
   @Get()
-  @Roles(['user'])
+  @Roles(['admin', 'manger', 'user'])
   findAll(@Request() req) {
     return this.FriendsService.findAll(req);
   }
@@ -21,8 +21,9 @@ export class FriendsController {
   // =========================================================================================================================================
   // @Desc can user show single friend on account
   // @Route GET /friends
-  // @Access ['user']
+  // @Access ['admin','manger','user']
   @Get(':id')
+  @Roles(['admin', 'manger', 'user'])
   findOne(@Param('id') id: string, @Request() req) {
     return this.FriendsService.findOne(id, req);
   }
@@ -30,8 +31,9 @@ export class FriendsController {
   // =========================================================================================================================================
   // @Desc can user delete single friend on account
   // @Route GET /friends
-  // @Access ['user']
+  // @Access ['admin','manger','user']
   @Patch(':id/:operation')
+  @Roles(['admin', 'manger', 'user'])
   update(
     @Param('id') id: string,
     @Param('operation') operation: string,

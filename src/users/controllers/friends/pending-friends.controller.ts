@@ -20,9 +20,9 @@ export class PendingFriendsController {
   // =========================================================================================================================================
   // @Desc can user add friends in pending-friends
   // @Route POST /pending-friends
-  // @Access ['user']
+  // @Access ['admin','manger','user']
   @Post()
-  @Roles(['user'])
+  @Roles(['admin', 'manger', 'user'])
   create(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
     createPendingFriendDto: CreatePendingFriendDto,
@@ -34,9 +34,9 @@ export class PendingFriendsController {
   // =========================================================================================================================================
   // @Desc can user show all friends in pending-friends on your account
   // @Route GET /pending-friends
-  // @Access ['user']
+  // @Access ['admin','manger','user']
   @Get()
-  @Roles(['user'])
+  @Roles(['admin', 'manger', 'user'])
   findAll(@Request() req) {
     return this.pendingFriendsService.findAll(req);
   }
@@ -44,7 +44,7 @@ export class PendingFriendsController {
   // =========================================================================================================================================
   // @Desc can any user show all friends in pending-friends on your account
   // @Route GET /pending-friends
-  // @Access ['user']
+  // @Access ['admin','manger','user']
   @Get(':id')
   findOne(@Param('id') id: string, @Request() req) {
     return this.pendingFriendsService.findOne(id, req);
@@ -53,7 +53,7 @@ export class PendingFriendsController {
   // =========================================================================================================================================
   // @Desc can any user show all friends in pending-friends on your account
   // @Route GET /pending-friends
-  // @Access ['user']
+  // @Access ['admin','manger','user']
   @Patch(':id/:operation')
   update(
     @Param('id') id: string,
