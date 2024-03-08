@@ -48,9 +48,9 @@ export class SearchFriendsController {
   // =========================================================================================================================================
   // @Desc can user search for users
   // @Route GET /search-friends
-  // @Access ['user']
+  // @Access ['admin', 'manger','user']
   @Get(':keyword')
-  @Roles(['user'])
+  @Roles(['admin', 'manger',  'user'])
   findAll(@Request() req, @Param('keyword') keyword) {
     return this.searchFriendsService.findOne(keyword, req);
   }
