@@ -101,14 +101,14 @@ export class PublicNotificationsService {
       throw new UnauthorizedException();
     }
 
-    const currentDate = new Date();
-    const exDate = new Date(currentDate.getTime() + 259200000); // Ex after 3 day
+    // const currentDate = new Date();
+    // const exDate = new Date(currentDate.getTime() + 259200000); // Ex after 3 day
 
     const data = {
       isSee: false,
       title: notificationDto.title,
       content: notificationDto.content,
-      exDate,
+      exDate: notificationDto.exDate,
     };
 
     const notifications = await this.publicNotifications.find({});

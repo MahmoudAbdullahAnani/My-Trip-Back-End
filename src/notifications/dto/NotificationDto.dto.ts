@@ -15,6 +15,8 @@ export class NotificationDto {
   @IsString({ message: 'The Content Must Be String' })
   @MinLength(2, { message: 'The Content is Very Short' })
   content: string;
+  @IsOptional()
+  exDate: Date;
 }
 export class UpdateNotificationDto {
   @IsString({ message: 'The Title Must Be String' })
