@@ -32,7 +32,7 @@ export class UpdateNotificationDto {
   @IsDate({ message: 'The Date Must Be Valid Date' })
   @IsOptional()
   data: Date;
-  @IsDate({ message: 'The ex Date Must Be Valid Date' })
+  // @IsDate({ message: 'The ex Date Must Be Valid Date' })
   @IsOptional()
   exDate: Date;
 }
