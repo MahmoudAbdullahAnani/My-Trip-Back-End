@@ -44,7 +44,7 @@ export class SearchFriendsService {
           { userName: { $regex: keyword, $options: 'i' } },
         ],
       })
-      .select('firstName lastName avatar friends avatar')
+      .select('firstName lastName avatar friends avatar notification email age userName')
       .populate({
         path: 'friends',
         select: 'firstName lastName avatar friends avatar',
