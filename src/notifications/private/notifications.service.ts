@@ -225,7 +225,7 @@ export class NotificationsService {
     try {
       const dataUpdated = {
         _id: resultExist[0]._id,
-        isSee: false,
+        isSee: updateNotificationDto.isSee || false,
         title: updateNotificationDto.title,
         content: updateNotificationDto.content,
         date: new Date(),
