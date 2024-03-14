@@ -4,12 +4,12 @@ import { UsersGuard } from 'src/users/guards/users.guard';
 import { Roles } from 'src/users/guards/roles.decorator';
 
 @Controller('hotel')
-@UseGuards(UsersGuard)
+// @UseGuards(UsersGuard)
 export class HotelController {
   constructor(private readonly hotelService: HotelService) {}
 
   @Post()
-  @Roles(['admin', 'manger', 'user'])
+  // @Roles(['admin', 'manger', 'user'])
   getHotels(@Body() body: any) {
     return this.hotelService.getHotels(
       body.chooseCityNameHotel,
