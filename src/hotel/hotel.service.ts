@@ -9,7 +9,6 @@ export class HotelService {
     dateReturnState: string,
     adultsDataState: number,
   ) {
-    let data = {};
     // In
     const storeDateGoY = `${dateGoState}`.split('/')[2];
     const storeDateGoMonth = `${dateGoState}`.split('/')[1];
