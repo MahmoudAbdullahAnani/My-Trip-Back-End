@@ -10,8 +10,8 @@ export class HotelController {
 
   @Post()
   // @Roles(['admin', 'manger', 'user'])
-  getHotels(@Body() body: any) {
-    return this.hotelService.getHotels(
+  async getHotels(@Body() body: any) {
+    return await this.hotelService.getHotels(
       body.chooseCityNameHotel,
       body.dateGoState,
       body.dateReturnState,
