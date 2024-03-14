@@ -6,6 +6,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { OrdersModule } from './orders/orders.module';
 import { CatchDataModule } from './catch-data/catch-data.module';
 import { UploadModule } from './upload/upload.module';
+import { HotelModule } from './hotel/hotel.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UploadModule } from './upload/upload.module';
     OrdersModule,
     CatchDataModule,
     UploadModule,
+    HotelModule,
     // AirportSearchModule,
   ],
 })
