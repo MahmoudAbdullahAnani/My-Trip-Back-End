@@ -1,3 +1,4 @@
+import { HotelData } from './HotelData.intercafe';
 import { IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CatchDataDto {
@@ -50,5 +51,6 @@ export class CatchDataDto {
     descriptionCar: string;
     serviceProviderCar: string;
     priceCar: string;
+    dataHotel: HotelData;
   };
 }

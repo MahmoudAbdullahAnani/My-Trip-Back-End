@@ -49,6 +49,7 @@ export const CatchDataSchema = new mongoose.Schema(
         descriptionCar: String,
         serviceProviderCar: String,
         priceCar: String,
+        data: {},
       },
     ],
   },
