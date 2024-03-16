@@ -23,6 +23,7 @@ export const CatchDataSchema = new mongoose.Schema(
         numberAdults: Number,
         numberChild: Number,
         numberInfant: Number,
+        RateingState: Number,
         typeClass: String,
       },
     ],

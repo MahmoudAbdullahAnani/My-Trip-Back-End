@@ -26,6 +26,7 @@ export class CatchDataDto {
     numberChild: Number;
     numberInfant: Number;
     typeClass: string;
+    RateingState: number;
   };
   @IsOptional()
   @IsObject({ message: 'choose Ticket must be an object' })
