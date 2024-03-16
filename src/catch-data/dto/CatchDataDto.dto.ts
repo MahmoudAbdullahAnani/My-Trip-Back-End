@@ -41,5 +41,14 @@ export class CatchDataDto {
     price: string;
     timeGo: string;
     timeSet: string;
+
+    carID: string;
+    startDateCar: string;
+    endDateCar: string;
+    distanceCar: string;
+    categoryCar: string;
+    descriptionCar: string;
+    serviceProviderCar: string;
+    priceCar: string;
   };
 }
