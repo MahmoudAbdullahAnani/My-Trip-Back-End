@@ -18,6 +18,7 @@ export const OrderSchema = new mongoose.Schema(
     payment_method_types: String,
     payment_intent: String,
     status: String,
+    typeSystem: String,
     metaData: {
       description: String,
       logo: String,

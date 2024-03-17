@@ -57,6 +57,7 @@ export class OrdersService {
         durationH: OrderData.durationH || '',
         durationM: OrderData.durationM || '',
         isStope: OrderData.isStope || 0,
+        typeSystem: OrderData.typeSystem || '',
       },
     });
     return session;
@@ -159,6 +160,7 @@ export class OrdersService {
         payment_intent: OrderData.data.object.payment_intent,
         status: OrderData.data.object.status,
         metaData: OrderData.data.object.metadata,
+        typeSystem: OrderData.data.object.metadata.typeSystem,
       });
     }
 

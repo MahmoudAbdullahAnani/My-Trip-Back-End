@@ -23,6 +23,8 @@ export class CreateOrderStripeDto {
   durationM: string;
   @IsString({ message: 'durationM Must be string' })
   durationH: string;
+  @IsString({ message: 'typeSystem Must be string' })
+  typeSystem: string;
   @IsNumber({}, { message: 'isStope Must be number' })
   isStope: number;
 }
