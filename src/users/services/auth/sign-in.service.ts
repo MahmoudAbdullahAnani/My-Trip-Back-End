@@ -25,9 +25,12 @@ export class SigninService {
   async signin(login: Login): Promise<{ data: CreateUserDto; token: string }> {
     const user = await this.usersModule
       .findOne({ email: login.email })
-      .select('_id password role firstName lastName email userName verificationAccountCode age phoneNumber');
+      .select(
+        '_id chatSocketId chatSocketAdminId password role firstName lastName email userName verificationAccountCode age phoneNumber',
+      );
 
-    // const user = await this.usersRepository.findOne({
+    // const user = await this.usersRepository.findOne({npm run satrt:dev
+    
     //   where: {
     //     userName: login.userName,
     //   },

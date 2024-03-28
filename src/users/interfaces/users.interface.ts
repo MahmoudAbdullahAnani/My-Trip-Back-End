@@ -17,6 +17,8 @@ export interface Users extends Document {
   readonly country: string;
   readonly nationality: string;
   readonly gender: string;
+  readonly chatSocketId: string;
+  readonly chatSocketAdminId: string;
   readonly notification: [];
   readonly pendingFriends: [];
   readonly friends: [];

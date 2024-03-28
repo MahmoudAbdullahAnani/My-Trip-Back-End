@@ -1,28 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { Users } from 'src/users/interfaces/users.interface';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ChatService {
-  create(createChatDto: CreateChatDto) {
-    console.log(createChatDto);
+  constructor(
+    @Inject('USERS_MODEL')
+    private readonly userModule: Model<Users>,
+  ) {}
+  async insertClientId(userId, clientId) {
+    const user = await this.userModule.findOneAndUpdate(
+      { _id: userId },
+      { chatSocketId: clientId },
+      { new: true },
+    );
 
-    return 'This action adds a new chat';
-  }
-
-  findAll() {
-    return `This action returns all chat`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
-  }
-
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+    if ((user?.role || '') === 'admin' || (user?.role || '') === 'manger') {
+      await this.userModule.updateMany(
+        {},
+        { chatSocketAdminId: clientId },
+        { new: true },
+      );
+    }
+    return user;
   }
 }

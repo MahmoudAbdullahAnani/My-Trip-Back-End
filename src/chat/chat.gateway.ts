@@ -8,7 +8,15 @@ import {
 import { ChatService } from './chat.service';
 
 import { Server, Socket } from 'socket.io';
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({
+  cors: {
+    origin: [
+      'http://localhost:3001',
+      'https://my-trip-back-end.onrender.com',
+      '*',
+    ],
+  },
+})
 export class ChatGateway {
   constructor(private readonly chatService: ChatService) {}
 
@@ -17,18 +25,21 @@ export class ChatGateway {
 
   onModuleInit() {
     this.server.on('connection', (socket) => {
-      console.log(socket.id);
+      const userId = socket.handshake.query.userIdDB;
+      this.chatService.insertClientId(userId, socket.id);
       this.server.emit('userId', socket.id);
-      console.log('Connected');
     });
   }
-
+  
   @SubscribeMessage('message')
   create(@ConnectedSocket() client: Socket, @MessageBody() message): void {
-    console.log({ message, client: client.id });
+    const userId = client.handshake.query.userIdDB;
 
-    this.server.to(client.id).emit('message', message.message);
-    this.server.to(message.SenderNumber).emit('message', message.message);
+    console.log({ message, client: client.id, userId });
+    const data = { message, client: client.id, userId };
+    // this.chatService.insertClientId(userId, client.id);
+    this.server.to(client.id).emit('message', data);
+    this.server.to(message.SenderNumber).emit('message', data);
     // this.server.emit('message', message);
   }
 }

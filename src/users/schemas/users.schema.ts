@@ -31,6 +31,8 @@ export const UsersSchema = new mongoose.Schema(
     active: Boolean,
     verificationCode: String,
     verificationAccountCode: String,
+    chatSocketId: String,
+    chatSocketAdminId: String,
     notification: [
       {
         id: { type: mongoose.Schema.ObjectId },
