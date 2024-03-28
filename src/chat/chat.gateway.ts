@@ -13,6 +13,7 @@ import { Server, Socket } from 'socket.io';
     origin: [
       'http://localhost:3001',
       'https://my-trip-back-end.onrender.com',
+      'https://ittrip.vercel.app',
       '*',
     ],
   },
@@ -30,7 +31,7 @@ export class ChatGateway {
       this.server.emit('userId', socket.id);
     });
   }
-  
+
   @SubscribeMessage('message')
   create(@ConnectedSocket() client: Socket, @MessageBody() message): void {
     const userId = client.handshake.query.userIdDB;
