@@ -18,6 +18,7 @@ import { Server, Socket } from 'socket.io';
     ],
   },
 })
+
 export class ChatGateway {
   constructor(private readonly chatService: ChatService) {}
 
