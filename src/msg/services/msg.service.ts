@@ -51,4 +51,10 @@ export class MsgService {
       count: messages.length,
     };
   }
+
+  async clearMsg(): Promise<void> {
+    await this.msgModule.deleteMany();
+    // await message.save();
+    return;
+  }
 }

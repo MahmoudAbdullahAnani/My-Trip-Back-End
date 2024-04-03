@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   UseGuards,
@@ -27,5 +28,10 @@ export class MsgController {
   @Roles(['admin', 'manger'])
   getAllMsgs() {
     return this.msgService.getAllMsgs();
+  }
+  @Delete()
+  @Roles(['admin', 'manger'])
+  clearMsg() {
+    return this.msgService.clearMsg();
   }
 }
