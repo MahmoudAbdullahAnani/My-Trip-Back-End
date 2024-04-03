@@ -8,6 +8,7 @@ import { CatchDataModule } from './catch-data/catch-data.module';
 import { UploadModule } from './upload/upload.module';
 import { HotelModule } from './hotel/hotel.module';
 import { ChatModule } from './chat/chat.module';
+import { MsgModule } from './msg/msg.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ChatModule } from './chat/chat.module';
     UploadModule,
     HotelModule,
     ChatModule,
+    MsgModule,
     // AirportSearchModule,
   ],
 })

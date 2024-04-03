@@ -60,5 +60,6 @@ import { SearchFriendsService } from './services/friends/search-friends.service'
     EmailService,
     SearchFriendsService,
   ],
+  exports: [EmailService],
 })
 export class UsersModule {}

@@ -23,7 +23,7 @@ export class UsersGuard implements CanActivate {
     }
     // Get Token
     const request = context.switchToHttp().getRequest();
-    const token = request.headers.authorization.split(' ', 2)[1];
+    const token = (request.headers.authorization || '   ').split(' ', 2)[1];
     // Verify Token
     // const token = this.extractTokenFromHeader(request);
     // console.log(token);
