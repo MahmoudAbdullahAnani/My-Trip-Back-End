@@ -12,7 +12,18 @@ export class SubService {
   ) {}
 
   async subEmail(body: SubEmailDto) {
-    const subEmail = await this.subModule.create({
+    const subEmail = await this.subModule.findOne({
+      email: body.email,
+    });
+
+    if (subEmail) {
+      return {
+        statusCode: 200,
+        message: 'Subscribed successfully',
+        data: subEmail,
+      };
+    }
+    await this.subModule.create({
       name: body.name,
       email: body.email,
       msgs: [],
@@ -51,11 +62,17 @@ export class SubService {
           </div>
         </div>`,
       );
-      emailReceiver.msgs.push({
-        title: body.msgTitle,
-        content: body.msgContent,
-      });
-      const subEmail = await emailReceiver.save();
+      const subEmail = await this.subModule.findByIdAndUpdate(
+        emailReceiver._id,
+        {
+          $addToSet: {
+            msgs: {
+              title: body.msgTitle,
+              content: body.msgContent,
+            },
+          },
+        },
+      );
       return {
         statusCode: 200,
         message: 'Subscribed successfully',
