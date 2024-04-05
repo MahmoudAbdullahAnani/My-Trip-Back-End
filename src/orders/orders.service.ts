@@ -164,7 +164,7 @@ export class OrdersService {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const parsedParams: FlightOffer = parseQueryString(OrderData.OrderData);
-    console.log(parsedParams);
+    // console.log(parsedParams);
 
     const {
       system,
@@ -178,25 +178,27 @@ export class OrdersService {
       CountryBooking,
       price,
       itineraries,
+      description,
     } = parsedParams;
+    // console.log(itineraries);
+    // http://localhost:3001/?system=air&status=success&BirthDateBooking=%2C28%2F05%2F2002&NameBooking=%2CMahmoud%20Abdullah&GenderBooking=%2CMr&EmailBooking=%2Cmahmoud18957321%40gmail.com&PassportNumberBooking=%2C4587978&NationalityBooking=%2CAT&CountryBooking=%2CEG&type=flight-offer&id=1&source=GDS&instantTicketingRequired=false&nonHomogeneous=false&oneWay=false&lastTicketingDate=2024-04-05&lastTicketingDateTime=2024-04-05&numberOfBookableSeats=4&itineraries=%5Bobject%20Object%5D&price=%5Bobject%20Object%5D&pricingOptions=%5Bobject%20Object%5D&validatingAirlineCodes=F9&travelerPricings=%5Bobject%20Object%5D&user_id=
     const dataInsert = {
       name: NameBooking.split(',')[1],
       totalOrderPrice: price.total,
-      description: itineraries,
-      address: CountryBooking || 'Egypt',
+      description,
+      address: CountryBooking.split(',')[1] || 'Egypt',
       user_id: OrderData.user_id || 'guest',
       currency: 'egp',
-      email: EmailBooking,
+      email: EmailBooking.split(',')[1] || 'null',
       payment_method_types: `${system}-${
         parsedParams.PayerID ? 'PayPal' : 'Stripe'
       }`,
       status: status,
       metaData: JSON.stringify(parsedParams),
       typeSystem: system,
+      countTickets: adultsDataState,
     };
-    // return await this.order.create({
-    //   name: NameBooking.split(',')[1],
-    // });
+    return await this.order.create(dataInsert);
 
     // // stripe
     // if (OrderData.type === 'checkout.session.completed') {

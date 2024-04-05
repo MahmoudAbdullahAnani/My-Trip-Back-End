@@ -116,6 +116,7 @@ export interface FlightOffer {
   NationalityBooking: string;
   CountryBooking: string;
   PayerID: string;
+  description: string;
 }
 
 export interface Itinerary {

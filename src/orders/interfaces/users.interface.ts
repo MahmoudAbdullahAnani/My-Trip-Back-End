@@ -3,7 +3,7 @@ export interface OrderInterfacer extends Document {
   readonly name: string;
   readonly totalOrderPrice: string;
   readonly evt_id: string;
-  readonly description: string;
+  readonly description: {};
   readonly address: string;
   readonly user_id: string;
   readonly currency: string;
