@@ -116,6 +116,8 @@ export interface FlightOffer {
   NationalityBooking: string;
   CountryBooking: string;
   PayerID: string;
+  arrival: string;
+  departure: string;
   description: string;
 }
 
