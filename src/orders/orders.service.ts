@@ -11,6 +11,7 @@ import {
 import { Model } from 'mongoose';
 import { OrderInterfacer } from './interfaces/users.interface';
 import { JwtService } from '@nestjs/jwt';
+import { FlightOffer } from './interfaces/payPalWebhookEvent.inerface';
 const stripe = require('stripe')(
   'sk_test_51OhY70Jz9GDytzMTDBZgLDGZRcmsIjHMoRgAfFwRkBB62r86y0QMzTzJwD21XNvo7tYWG7iJmBSs6IivPC9yDtWW00rRjVXqDX',
 );
@@ -143,48 +144,104 @@ export class OrdersService {
     return data;
   }
   async createOrder(OrderData): Promise<any> {
-    // stripe
-    if (OrderData.type === 'checkout.session.completed') {
-      return await this.order.create({
-        name: OrderData.data.object.customer_details.name,
-        totalOrderPrice: +OrderData.data.object.amount_total,
-        evt_id: OrderData.id,
-        description:
-          OrderData.data.object.invoice_creation.invoice_data.description ||
-          'null',
-        address: OrderData.data.object.customer_details.address.country,
-        user_id: OrderData.data.object.client_reference_id,
-        currency: OrderData.data.object.currency || 'egp',
-        email: OrderData.data.object.customer_email,
-        payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
-        payment_intent: OrderData.data.object.payment_intent,
-        status: OrderData.data.object.status,
-        metaData: OrderData.data.object.metadata,
-        typeSystem: OrderData.data.object.metadata.typeSystem,
-      });
-    }
+    function parseQueryString(url: string) {
+      const queryString = url.split('?')[1];
+      if (!queryString) {
+        return {};
+      }
 
-    // Paypal
-    if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
-      // console.log({ OrderData });
-
-      return await this.order.create({
-        name: `${OrderData.resource.payer.name.given_name} ${OrderData.resource.payer.name.surname}`,
-        totalOrderPrice: +OrderData.resource.purchase_units[0].amount.value,
-        evt_id: OrderData.id,
-        description: OrderData.summary || 'null',
-        address: OrderData.resource.payer.address.country_code,
-        user_id: OrderData.resource.purchase_units[0].reference_id,
-        currency:
-          OrderData.resource.purchase_units[0].amount.currency_code || 'USD',
-        email: OrderData.resource.payment_source.paypal.email_address,
-        payment_method_types: `Paypal`,
-        payment_intent: OrderData.resource.intent,
-        status: OrderData.status,
-        metaData:
-          OrderData.resource.purchase_units[0].metaData || 'not found metaData',
+      const params = {};
+      queryString.split('&').forEach((param) => {
+        const [key, value] = param.split('=');
+        params[decodeURIComponent(key)] = decodeURIComponent(value);
       });
+
+      return params;
     }
+    const { adultsDataState } = OrderData;
+    // console.log(Order);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const parsedParams: FlightOffer = parseQueryString(OrderData.OrderData);
+    console.log(parsedParams);
+
+    const {
+      system,
+      status,
+      BirthDateBooking,
+      NameBooking,
+      GenderBooking,
+      EmailBooking,
+      PassportNumberBooking,
+      NationalityBooking,
+      CountryBooking,
+      price,
+      itineraries,
+    } = parsedParams;
+    const dataInsert = {
+      name: NameBooking.split(',')[1],
+      totalOrderPrice: price.total,
+      description: `${itineraries[0].segments[0].arrival.iataCode || ''} -> ${
+        itineraries[0].segments[1].arrival.iataCode || ''
+      }`,
+      address: CountryBooking || 'Egypt',
+      user_id: OrderData.user_id || 'guest',
+      currency: 'egp',
+      email: EmailBooking,
+      payment_method_types: `${system}-${
+        parsedParams.PayerID ? 'PayPal' : 'Stripe'
+      }`,
+      status: status,
+      metaData: JSON.stringify(parsedParams),
+      typeSystem: system,
+    };
+    // return await this.order.create({
+    //   name: NameBooking.split(',')[1],
+    // });
+
+    // // stripe
+    // if (OrderData.type === 'checkout.session.completed') {
+    //   return await this.order.create({
+    //     name: OrderData.data.object.customer_details.name,
+    //     totalOrderPrice: +OrderData.data.object.amount_total,
+    //     evt_id: OrderData.id,
+    //     description:
+    //       OrderData.data.object.invoice_creation.invoice_data.description ||
+    //       'null',
+    //     address: OrderData.data.object.customer_details.address.country,
+    //     user_id: OrderData.data.object.client_reference_id,
+    //     currency: OrderData.data.object.currency || 'egp',
+    //     email: OrderData.data.object.customer_email,
+    //     payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
+    //     payment_intent: OrderData.data.object.payment_intent,
+    //     status: OrderData.data.object.status,
+    //     metaData: OrderData.data.object.metadata,
+    //     typeSystem: OrderData.data.object.metadata.typeSystem,
+    //   });
+    // }
+
+    // // Paypal
+    // if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
+    //   // console.log({ OrderData });
+
+    //   return await this.order.create({
+    //     name: `${OrderData.resource.payer.name.given_name} ${OrderData.resource.payer.name.surname}`,
+    //     totalOrderPrice: +OrderData.resource.purchase_units[0].amount.value,
+    //     evt_id: OrderData.id,
+    //     description: OrderData.summary || 'null',
+    //     address: OrderData.resource.payer.address.country_code,
+    //     user_id: OrderData.resource.purchase_units[0].reference_id,
+    //     currency:
+    //       OrderData.resource.purchase_units[0].amount.currency_code || 'USD',
+    //     email: OrderData.resource.payment_source.paypal.email_address,
+    //     payment_method_types: `Paypal`,
+    //     payment_intent: OrderData.resource.intent,
+    //     status: OrderData.status,
+    //     metaData:
+    //       OrderData.resource.purchase_units[0].metaData || 'not found metaData',
+    //   });
+    // }
   }
 
   // Finds

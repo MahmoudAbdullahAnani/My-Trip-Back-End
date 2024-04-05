@@ -47,6 +47,8 @@ export class OrdersPayPallController {
     return this.ordersService.createPaypal(OrderData);
   }
 }
+
+//! ****************************************************************************************************** !\\
 @Controller('checkout-completed')
 export class CompletedOrdersController {
   constructor(private readonly ordersService: OrdersService) {}
