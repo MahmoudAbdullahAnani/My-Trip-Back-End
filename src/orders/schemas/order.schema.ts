@@ -10,7 +10,7 @@ export const OrderSchema = new mongoose.Schema(
     },
     totalOrderPrice: Number,
     evt_id: String,
-    description: String,
+    description: {},
     address: String,
     user_id: String,
     currency: String,

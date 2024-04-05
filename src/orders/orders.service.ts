@@ -182,9 +182,7 @@ export class OrdersService {
     const dataInsert = {
       name: NameBooking.split(',')[1],
       totalOrderPrice: price.total,
-      description: `${itineraries[0].segments[0].arrival.iataCode || ''} -> ${
-        itineraries[0].segments[1].arrival.iataCode || ''
-      }`,
+      description: itineraries,
       address: CountryBooking || 'Egypt',
       user_id: OrderData.user_id || 'guest',
       currency: 'egp',
