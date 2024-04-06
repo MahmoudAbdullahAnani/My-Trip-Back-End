@@ -118,6 +118,7 @@ export interface FlightOffer {
   PayerID: string;
   arrival: string;
   departure: string;
+  user_id: string;
   description: string;
 }
 
