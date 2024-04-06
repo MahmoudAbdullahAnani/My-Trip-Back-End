@@ -120,6 +120,12 @@ export interface FlightOffer {
   departure: string;
   user_id: string;
   description: string;
+  logo: string;
+  timeGo: string;
+  timeSet: string;
+  durationH: string;
+  durationM: string;
+  isStope: string;
 }
 
 export interface Itinerary {

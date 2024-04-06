@@ -181,8 +181,15 @@ export class OrdersService {
       description,
       arrival,
       departure,
-      user_id
-    } = parsedParams; // description=${arrival}*الى*${departure}*رحلة*من
+      user_id,
+      logo,
+
+      timeGo,
+      timeSet,
+      durationH,
+      durationM,
+      isStope,
+    } = parsedParams;
     // console.log(itineraries);
     // http://localhost:3001/?system=air&status=success&BirthDateBooking=%2C28%2F05%2F2002&NameBooking=%2CMahmoud%20Abdullah&GenderBooking=%2CMr&EmailBooking=%2Cmahmoud18957321%40gmail.com&PassportNumberBooking=%2C4587978&NationalityBooking=%2CAT&CountryBooking=%2CEG&type=flight-offer&id=1&source=GDS&instantTicketingRequired=false&nonHomogeneous=false&oneWay=false&lastTicketingDate=2024-04-05&lastTicketingDateTime=2024-04-05&numberOfBookableSeats=4&itineraries=%5Bobject%20Object%5D&price=%5Bobject%20Object%5D&pricingOptions=%5Bobject%20Object%5D&validatingAirlineCodes=F9&travelerPricings=%5Bobject%20Object%5D&user_id=
     const dataInsert = {
@@ -197,12 +204,24 @@ export class OrdersService {
         parsedParams.PayerID ? 'PayPal' : 'Stripe'
       }`,
       status: status,
-      metaData: JSON.stringify(parsedParams),
+      // metaData: JSON.stringify(parsedParams),
+      metaData: {
+        description: `${arrival} الى ${departure} رحلة من`,
+        logo: logo,
+        timeGo: timeGo,
+        timeSet: timeSet,
+        durationH: durationH,
+        durationM: durationM,
+        isStope: isStope,
+        user_id: user_id || 'guest',
+        price: price.total,
+      },
       typeSystem: system,
       countTickets: adultsDataState,
     };
+    console.log(dataInsert);
     return await this.order.create(dataInsert);
-
+    // https://ittrip.vercel.app/?system=air&status=success&isStope=0&durationM=&durationH=14&logo=F9&timeGo=2024-04-11T10:50:00&timeSet=2024-04-11T21:50:00&BirthDateBooking=%2C28%2F05%2F2002&NameBooking=%2CHend%20Ali&GenderBooking=%2CMr&EmailBooking=%2ChendAli%40gmail.com&PassportNumberBooking=%2C4587978&NationalityBooking=%2CAZ&CountryBooking=%2CEG&type=flight-offer&id=1&source=GDS&instantTicketingRequired=false&nonHomogeneous=false&oneWay=false&lastTicketingDate=2024-04-06&lastTicketingDateTime=2024-04-06&numberOfBookableSeats=4&itineraries=%5Bobject%20Object%5D&price=%5Bobject%20Object%5D&pricingOptions=%5Bobject%20Object%5D&validatingAirlineCodes=F9&travelerPricings=%5Bobject%20Object%5D&user_id=65e18dcd097330f55e64a8e6&arrival=SFO&departure=LGA
     // // stripe
     // if (OrderData.type === 'checkout.session.completed') {
     //   return await this.order.create({
