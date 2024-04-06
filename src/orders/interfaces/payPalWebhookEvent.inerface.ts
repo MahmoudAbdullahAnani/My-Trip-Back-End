@@ -126,6 +126,7 @@ export interface FlightOffer {
   durationH: string;
   durationM: string;
   isStope: string;
+  price1: string;
 }
 
 export interface Itinerary {
