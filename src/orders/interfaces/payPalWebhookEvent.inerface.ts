@@ -127,6 +127,10 @@ export interface FlightOffer {
   durationM: string;
   isStope: string;
   price1: string;
+  PhoneNumber: string;
+  ExpiryDate: string;
+  adultsDataState: string;
+  typeTravelState: string;
 }
 
 export interface Itinerary {

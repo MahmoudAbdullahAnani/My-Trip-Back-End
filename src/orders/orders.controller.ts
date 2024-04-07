@@ -68,6 +68,23 @@ export class CompletedOrdersController {
   // =========================================================================================================================================
   // =========================================================================================================================================
 
+  // @Desc confirmation Order
+  // @Route POST /checkout-completed/:confirmationOrder/:amadeusToken
+  // @Access ['User Payment']
+
+  @Post(':OrderID/:amadeusToken')
+  confirmationOrder(
+    @Body()
+    Data,
+    @Param('OrderID') OrderID,
+    @Param('amadeusToken') amadeusToken,
+    
+  ) {
+    return this.ordersService.confirmationOrder(Data, OrderID, amadeusToken);
+  }
+  // =========================================================================================================================================
+  // =========================================================================================================================================
+
   // @Desc user can view order
   // @Route Get /checkout-completed
   // @Access ['user']

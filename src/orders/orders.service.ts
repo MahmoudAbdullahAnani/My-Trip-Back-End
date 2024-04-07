@@ -1,5 +1,6 @@
 import {
   HttpException,
+  HttpStatus,
   Inject,
   Injectable,
   UnauthorizedException,
@@ -12,6 +13,7 @@ import { Model } from 'mongoose';
 import { OrderInterfacer } from './interfaces/users.interface';
 import { JwtService } from '@nestjs/jwt';
 import { FlightOffer } from './interfaces/payPalWebhookEvent.inerface';
+import axios from 'axios';
 const stripe = require('stripe')(
   'sk_test_51OhY70Jz9GDytzMTDBZgLDGZRcmsIjHMoRgAfFwRkBB62r86y0QMzTzJwD21XNvo7tYWG7iJmBSs6IivPC9yDtWW00rRjVXqDX',
 );
@@ -158,13 +160,10 @@ export class OrdersService {
 
       return params;
     }
-    const { adultsDataState } = OrderData;
-    // console.log(Order);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const parsedParams: FlightOffer = parseQueryString(OrderData.OrderData);
-
 
     const {
       system,
@@ -183,14 +182,27 @@ export class OrdersService {
       departure,
       user_id,
       logo,
-
+      PhoneNumber,
+      ExpiryDate,
       timeGo,
       timeSet,
       durationH,
       durationM,
       isStope,
+      adultsDataState,
+      typeTravelState,
     } = parsedParams;
+
     const dataInsert = {
+      typeTravelState,
+      PassportNumberBooking: PassportNumberBooking.split(',')[1],
+      GenderBooking: GenderBooking.split(',')[1],
+      BirthDateBooking: BirthDateBooking.split(',')[1],
+      NationalityBooking: NationalityBooking.split(',')[1],
+      CountryBooking: CountryBooking.split(',')[1],
+      adultsDataState: adultsDataState,
+      ExpiryDate: ExpiryDate.split(',')[1],
+      PhoneNumber: PhoneNumber.split(',')[1],
       name: NameBooking.split(',')[1],
       totalOrderPrice: price1,
       description: `${arrival} الى ${departure} رحلة من`,
@@ -217,53 +229,98 @@ export class OrdersService {
       typeSystem: system,
       countTickets: adultsDataState,
     };
-    console.log(dataInsert);
+    // const data = parsedParams
+
     return await this.order.create(dataInsert);
-    // https://ittrip.vercel.app/?system=air&status=success&isStope=0&durationM=&durationH=14&logo=F9&timeGo=2024-04-11T10:50:00&timeSet=2024-04-11T21:50:00&BirthDateBooking=%2C28%2F05%2F2002&NameBooking=%2CHend%20Ali&GenderBooking=%2CMr&EmailBooking=%2ChendAli%40gmail.com&PassportNumberBooking=%2C4587978&NationalityBooking=%2CAZ&CountryBooking=%2CEG&type=flight-offer&id=1&source=GDS&instantTicketingRequired=false&nonHomogeneous=false&oneWay=false&lastTicketingDate=2024-04-06&lastTicketingDateTime=2024-04-06&numberOfBookableSeats=4&itineraries=%5Bobject%20Object%5D&price=%5Bobject%20Object%5D&pricingOptions=%5Bobject%20Object%5D&validatingAirlineCodes=F9&travelerPricings=%5Bobject%20Object%5D&user_id=65e18dcd097330f55e64a8e6&arrival=SFO&departure=LGA
-    // // stripe
-    // if (OrderData.type === 'checkout.session.completed') {
-    //   return await this.order.create({
-    //     name: OrderData.data.object.customer_details.name,
-    //     totalOrderPrice: +OrderData.data.object.amount_total,
-    //     evt_id: OrderData.id,
-    //     description:
-    //       OrderData.data.object.invoice_creation.invoice_data.description ||
-    //       'null',
-    //     address: OrderData.data.object.customer_details.address.country,
-    //     user_id: OrderData.data.object.client_reference_id,
-    //     currency: OrderData.data.object.currency || 'egp',
-    //     email: OrderData.data.object.customer_email,
-    //     payment_method_types: `${OrderData.data.object.payment_method_types[0]}-Stripe`,
-    //     payment_intent: OrderData.data.object.payment_intent,
-    //     status: OrderData.data.object.status,
-    //     metaData: OrderData.data.object.metadata,
-    //     typeSystem: OrderData.data.object.metadata.typeSystem,
-    //   });
-    // }
-
-    // // Paypal
-    // if (OrderData.event_type === 'CHECKOUT.ORDER.APPROVED') {
-    //   // console.log({ OrderData });
-
-    //   return await this.order.create({
-    //     name: `${OrderData.resource.payer.name.given_name} ${OrderData.resource.payer.name.surname}`,
-    //     totalOrderPrice: +OrderData.resource.purchase_units[0].amount.value,
-    //     evt_id: OrderData.id,
-    //     description: OrderData.summary || 'null',
-    //     address: OrderData.resource.payer.address.country_code,
-    //     user_id: OrderData.resource.purchase_units[0].reference_id,
-    //     currency:
-    //       OrderData.resource.purchase_units[0].amount.currency_code || 'USD',
-    //     email: OrderData.resource.payment_source.paypal.email_address,
-    //     payment_method_types: `Paypal`,
-    //     payment_intent: OrderData.resource.intent,
-    //     status: OrderData.status,
-    //     metaData:
-    //       OrderData.resource.purchase_units[0].metaData || 'not found metaData',
-    //   });
-    // }
   }
 
+  async confirmationOrder(
+    Data,
+    OrderID: string,
+    amadeusToken: string,
+  ): Promise<any> {
+    const OrderGetData = await this.order.findById(OrderID);
+    if (!OrderGetData) {
+      throw new HttpException('Order Not Found', HttpStatus.NOT_FOUND);
+    }
+    // const Order = await this.order.findByIdAndUpdate(
+    //   OrderID,
+    //   {
+    //     tripData: { ...Data },
+    //   },
+    //   { new: true },
+    // );
+
+    // Req Amadeus
+    const dataBooking = {
+      data: {
+        type: 'flight-order',
+        flightOffers: [Data.Data],
+        travelers: [
+          {
+            id: '1',
+            dateOfBirth: OrderGetData.BirthDateBooking,
+            name: {
+              firstName: OrderGetData.name,
+              lastName: OrderGetData.name,
+            },
+            gender: OrderGetData.GenderBooking === 'Mr' ? 'MALE' : 'FEMALE',
+            contact: {
+              emailAddress: OrderGetData.email,
+              phones: [
+                {
+                  number: OrderGetData.PhoneNumber,
+                  countryCallingCode: OrderGetData.PhoneNumber.slice(0, 2),
+                  deviceType: 'MOBILE',
+                },
+              ],
+            },
+            documents: [
+              {
+                documentType: 'PASSPORT',
+                birthPlace: OrderGetData.CountryBooking,
+                issuanceLocation: OrderGetData.CountryBooking,
+                number: OrderGetData.PassportNumberBooking,
+                expiryDate: OrderGetData.ExpiryDate,
+                issuanceCountry: OrderGetData.CountryBooking,
+                validityCountry: OrderGetData.CountryBooking,
+                nationality: OrderGetData.NationalityBooking,
+                holder: true,
+              },
+            ],
+          },
+        ],
+      },
+    };
+    console.log('...dataBooking', dataBooking.data);
+
+    await axios
+      .post(
+        `https://test.api.amadeus.com/v1/booking/flight-orders`,
+        {
+          ...dataBooking,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${amadeusToken}`,
+          },
+        },
+      )
+      .then(async (res) => {
+        await this.order.findByIdAndUpdate(
+          OrderID,
+          {
+            tripData: { ...Data },
+          },
+          { new: true },
+        );
+        console.log('res-Order==>', res.data);
+      })
+      .catch((err) => {
+        console.log('err-Order==>', err.response.data);
+      });
+    return;
+  }
   // Finds
   async findMyOrders(req): Promise<any> {
     const token = req.headers?.authorization.split(' ')[1];

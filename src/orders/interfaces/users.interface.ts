@@ -11,6 +11,17 @@ export interface OrderInterfacer extends Document {
   readonly payment_method_types: string;
   readonly payment_intent: string;
   readonly status: string;
+  readonly BirthDateBooking: string;
+  readonly typeSystem: string;
+  readonly ExpiryDate: string;
+  readonly PhoneNumber: string;
+  readonly adultsDataState: string;
+  readonly GenderBooking: string;
+  readonly NationalityBooking: string;
+  readonly CountryBooking: string;
+  readonly PassportNumberBooking: string;
+  readonly typeTravelState: string;
+  readonly tripData: {};
   readonly metaData: {
     description: string;
     logo: string;
