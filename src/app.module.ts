@@ -9,6 +9,7 @@ import { UploadModule } from './upload/upload.module';
 import { HotelModule } from './hotel/hotel.module';
 import { ChatModule } from './chat/chat.module';
 import { MsgModule } from './msg/msg.module';
+import { StaticSectionsModule } from './static-sections/static-sections.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MsgModule } from './msg/msg.module';
     HotelModule,
     ChatModule,
     MsgModule,
+    StaticSectionsModule,
     // AirportSearchModule,
   ],
 })

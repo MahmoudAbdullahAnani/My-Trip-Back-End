@@ -48,4 +48,19 @@ export class UploadService {
       return result;
     });
   }
+  async publicUploadFile(
+    img: Express.Multer.File,
+  ): Promise<CloudinaryResponse> {
+    return new Promise<CloudinaryResponse>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
+      streamifier.createReadStream(img.buffer).pipe(uploadStream);
+    }).then(async (result) => {
+      return result;
+    });
+  }
 }
