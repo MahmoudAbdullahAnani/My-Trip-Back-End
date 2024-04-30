@@ -11,6 +11,7 @@ import { ChatModule } from './chat/chat.module';
 import { MsgModule } from './msg/msg.module';
 import { StaticSectionsModule } from './static-sections/static-sections.module';
 import { OffersHotelsModule } from './offers-hotels/offers-hotels.module';
+import { CustomersModule } from './customers/Customers.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { OffersHotelsModule } from './offers-hotels/offers-hotels.module';
     MsgModule,
     StaticSectionsModule,
     OffersHotelsModule,
+    CustomersModule,
     // AirportSearchModule,
   ],
 })
