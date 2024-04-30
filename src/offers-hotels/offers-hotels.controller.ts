@@ -47,6 +47,7 @@ export class OffersHotelsController {
   }
 
   @Patch(':id')
+  @Roles(['admin', 'manger'])
   update(
     @Param('id') id: string,
     @Body(
@@ -61,6 +62,7 @@ export class OffersHotelsController {
   }
 
   @Delete(':id')
+  @Roles(['admin', 'manger'])
   remove(@Param('id') id: string) {
     return this.offersHotelsService.remove(id);
   }
