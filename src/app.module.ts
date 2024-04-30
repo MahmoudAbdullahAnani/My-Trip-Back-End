@@ -10,6 +10,7 @@ import { HotelModule } from './hotel/hotel.module';
 import { ChatModule } from './chat/chat.module';
 import { MsgModule } from './msg/msg.module';
 import { StaticSectionsModule } from './static-sections/static-sections.module';
+import { OffersHotelsModule } from './offers-hotels/offers-hotels.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { StaticSectionsModule } from './static-sections/static-sections.module';
     ChatModule,
     MsgModule,
     StaticSectionsModule,
+    OffersHotelsModule,
     // AirportSearchModule,
   ],
 })
