@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
-// import { AirportSearchModule } from './airport-search/airport-search.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { OrdersModule } from './orders/orders.module';
 import { CatchDataModule } from './catch-data/catch-data.module';
@@ -27,7 +26,9 @@ import { CustomersModule } from './customers/Customers.module';
     StaticSectionsModule,
     OffersHotelsModule,
     CustomersModule,
-    // AirportSearchModule,
   ],
 })
 export class AppModule {}
+
+// import { AirportSearchModule } from './airport-search/airport-search.module';
+// AirportSearchModule,
