@@ -14,6 +14,7 @@ import { OrderInterfacer } from './interfaces/users.interface';
 import { JwtService } from '@nestjs/jwt';
 import { FlightOffer } from './interfaces/payPalWebhookEvent.inerface';
 import axios from 'axios';
+import { EmailService } from 'src/users/email.provider';
 const stripe = require('stripe')(
   'sk_test_51OhY70Jz9GDytzMTDBZgLDGZRcmsIjHMoRgAfFwRkBB62r86y0QMzTzJwD21XNvo7tYWG7iJmBSs6IivPC9yDtWW00rRjVXqDX',
 );
@@ -23,6 +24,7 @@ export class OrdersService {
   constructor(
     @Inject('ORDER_MODEL') private readonly order: Model<OrderInterfacer>,
     private jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) {}
 
   async createStripe(OrderData: CreateOrderStripeDto): Promise<any> {
@@ -229,8 +231,38 @@ export class OrdersService {
       typeSystem: system,
       countTickets: adultsDataState,
     };
+    const logoImage = `https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/${logo}.svg`;
     // const data = parsedParams
+    await this.emailService.sendMail(
+      process.env.USER,
+      EmailBooking.split(',')[1],
+      'Ajwaa Order',
 
+      `<div>
+          <h1>${arrival} الى ${departure} رحلة  تأكيد حجز رحلتك  </h1>
+          <hr/>
+          <p>علما بأن الشركة الناقلة هي ${logo}</p>
+          <img src='${logoImage}' />
+          <hr/>
+          <div>
+
+            <h5>بيانات الرحلة:</h5>,
+            <ul>
+              <li>عدد التوقفات: ${isStope}</li>
+              <li>السعر: ${price1}</li>
+              <li>ساعات الرحلة: ${durationH}</li>
+              <li>دقائق الرحلة: ${durationM}</li>
+              <li>موعد الذهاب: ${timeGo}</li>
+              <li>موعد الوصول: ${timeSet}</li>
+              <li>عدد البالغين: ${adultsDataState}</li>
+            </ul>
+            <br/>
+            <p>شكرا لكم علي استخدام اجواء</p>
+            <br/>
+            ${process.env.USER}
+          </div>
+        </div>`,
+    );
     return await this.order.create(dataInsert);
   }
 

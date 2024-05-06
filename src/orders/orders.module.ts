@@ -8,6 +8,7 @@ import {
 // DB
 import { orderConnectionProvider } from './providers/databaseConnection.provider';
 import { DatabaseModule } from 'src/database/database.module';
+import { EmailService } from 'src/users/email.provider';
 
 @Module({
   imports: [DatabaseModule],
@@ -16,6 +17,6 @@ import { DatabaseModule } from 'src/database/database.module';
     OrdersPayPallController,
     CompletedOrdersController,
   ],
-  providers: [...orderConnectionProvider, OrdersService],
+  providers: [...orderConnectionProvider, OrdersService, EmailService],
 })
 export class OrdersModule {}
