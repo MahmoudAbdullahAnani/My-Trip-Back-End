@@ -26,10 +26,10 @@ export class SigninService {
     const user = await this.usersModule
       .findOne({ email: login.email })
       .select(
-        '_id chatSocketId chatSocketAdminId password role firstName lastName email userName verificationAccountCode age phoneNumber',
+        '_id chatSocketId chatSocketAdminId password role firstName lastName avatar email userName verificationAccountCode age phoneNumber',
       );
 
-    // const user = await this.usersRepository.findOne({npm run satrt:dev
+    // const user = await this.usersRepository.findOne({npm run start:dev
     
     //   where: {
     //     userName: login.userName,
