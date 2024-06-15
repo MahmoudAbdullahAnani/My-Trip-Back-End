@@ -50,12 +50,16 @@ export class UsersService {
     return newUser;
   }
 
-  async findAll(): Promise<CreateUserDto[]> {
-    return await this.userModule
+  async findAll(): Promise<{ data: CreateUserDto[]; count:number}> {
+    const users = await this.userModule
       .find({})
       .select(
         '_id firstName lastName avatar email userName role phoneNumber createdAt updatedAt active ',
       );
+    return {
+      data: users,
+      count: users.length,
+    };
   }
 
   async findOne(id: string): Promise<CreateUserDto> {
